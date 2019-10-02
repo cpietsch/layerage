@@ -1,3 +1,6 @@
 module.exports = {
-  lintOnSave: true
+  lintOnSave: true,
+  publicPath: process.env.NODE_ENV === 'production'
+  ? '/layerage/'
+  : '/'
 };
