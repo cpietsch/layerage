@@ -23,19 +23,19 @@ export default new Vuex.Store({
   actions: {
     init: async function({ dispatch, commit, getters, state }) {
       console.log("init")
-      data = await csv("data.csv", d => ({ ...d, x: +d.x, y: +d.y}))
+      data = await csv("dataBig.csv", d => ({ ...d, x: +d.x, y: +d.y}))
       state.loaded.data = true
       dispatch("random")
     },
     random: function({ dispatch, commit, getters, state }) {
-      const id = getters.data[parseInt(Math.random()*getters.data.length)].id
+      const id = getters.data[parseInt(Math.random()*getters.data.length)].layerId
       router.push("/" + id)
       console.log("random", state.id)
     },
     loadImages: async function({ dispatch, commit, getters, state }) {
       console.log("loadImages")
       state.loaded.images = false
-      Promise.all(getters.siblings.map(loadImage))
+      Promise.all(getters.siblingsFiltered.map(loadImage))
         .then(values => {
           images = values.filter(d => d)
           state.loaded.images = true
@@ -50,7 +50,10 @@ export default new Vuex.Store({
       return state.loaded.images ? images : []
     },
     item: function(state, getters) {
-      return getters.data.find(d => d.id === state.id)
+      return getters.data.find(d => d.layerId === state.id)
+    },
+    siblingsFiltered: function(state, getters){
+      return getters.siblings.filter((d,i) => i < state.size)
     },
     siblings: function(state, getters){
       const { x, y } = getters.item
@@ -62,7 +65,6 @@ export default new Vuex.Store({
         }
       })
       .sort((a,b)=> a.distance - b.distance)
-      .filter((d,i) => i < state.size)
     }
   }
 })

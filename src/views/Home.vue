@@ -1,13 +1,23 @@
 <template>
   <div class="home" v-if="$store.state.loaded.data">
     <button @click="$store.dispatch('random')">random</button>
+   size <input type="range" min="10" max="3000" value="600" class="slider" v-model="$store.state.size" @change="$store.dispatch('loadImages')">
+    {{ siblingsFiltered.length }} total
     {{ data.length }}
-    {{ item }}
-    {{ siblings.length }}
+    {{ item.url }}
+    {{ siblingsFiltered.length }}
     {{ images.length }}
     
     <br>
     <canvas ref="canvas"></canvas>
+
+  <div class="credits">
+    <a 
+      v-for="s in siblingsFiltered"
+      :href="'https://www.reddit.com/r/Layer/comments/' + s.url"
+      target="_blank"
+      :key="s.id">{{s.layerId}}</a>
+  </div>
   </div>
 </template>
 
@@ -18,14 +28,19 @@ import {Delaunay} from "d3-delaunay";
 
 export default {
   name: 'home',
-  components: {
-    
+  methods: {
+    rangeSlide: function(el,val){
+      console.log(el, val)
+    },
+    draw: function(){
+      draw(this.$refs.canvas, this.images)
+    }
   },
   computed: {
     ...mapGetters([
       'data',
       'item',
-      'siblings',
+      'siblingsFiltered',
       'images'
     ])
   },
@@ -33,7 +48,7 @@ export default {
     images: function(images){
       if(!images.length) return
       console.log(images)
-      draw(this.$refs.canvas, images)
+      this.draw()
     },
     $route: {
       handler: function(route) {
@@ -53,13 +68,13 @@ export default {
 async function draw(canvas, images){
   console.log(canvas)
   const extent = [d3.extent(images, d => +d.x), d3.extent(images, d => +d.y)]
-  const width = 1920*4;
-  const height = 1080*4;
+  const width = 1920;
+  const height = 1080;
   const x = d3.scaleLinear().domain(extent[0]).range([0, width]);
   const y = d3.scaleLinear().domain(extent[1]).range([0, height]);
   const points = d3.merge(images.map(d => [x(d.x),y(d.y)]));
   const n = points.length
-  const radius = 128;
+  const radius = 128/5;
   console.log(points)
   const delaunay = new Delaunay(points);
   const context = canvas.getContext('2d');
@@ -117,5 +132,8 @@ function animationFrame() {
 <style scoped>
   canvas {
     width: 100vw;
+  }
+  .credits a{
+   display: block; 
   }
 </style>
