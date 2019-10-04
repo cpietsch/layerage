@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import { csv } from 'd3'
 import router from "./router";
+import { makeUrl, loadImage } from "./utils.js"
 
 let data = []
 let images = []
@@ -25,29 +26,30 @@ export default new Vuex.Store({
       console.log("init")
       data = await csv("dataBig.csv", d => ({ ...d, x: +d.x, y: +d.y}))
       state.loaded.data = true
-      dispatch("random")
-    },
-    random: function({ dispatch, commit, getters, state }) {
-      const id = getters.data[parseInt(Math.random()*getters.data.length)].layerId
-      router.push("/" + id)
-      console.log("random", state.id)
     },
     loadImages: async function({ dispatch, commit, getters, state }) {
       console.log("loadImages")
       state.loaded.images = false
-      Promise.all(getters.siblingsFiltered.map(loadImage))
+      return Promise.all(getters.siblingsFiltered.map(loadImage))
         .then(values => {
           images = values.filter(d => d)
           state.loaded.images = true
         })
-    }
+    },
+    setId: function({ dispatch, commit, getters, state }, id) {
+      console.log("id", id)
+      const item = getters.data.find(d => d.layerId === id)
+      //if(item) state.id = id
+      //else router.push("/")
+      state.id = id
+    },
   },
   getters: {
     data: function(state) {
       return state.loaded.data ? data : []
     },
     images: function(state) {
-      return state.loaded.images ? images : []
+      return state.loaded.data && state.loaded.images ? images : []
     },
     item: function(state, getters) {
       return getters.data.find(d => d.layerId === state.id)
@@ -68,16 +70,3 @@ export default new Vuex.Store({
     }
   }
 })
-
-
-function makeUrl(id){ return `https://vikusviewer.fh-potsdam.de/layer/data/png/128c/${id}.png`; }
-
-function loadImage(d) {
-  return new Promise((resolve, error) => {
-    const url = makeUrl(d.id);
-    const image = new Image(); 
-    image.onload = _ => resolve({...d, image})
-    image.onerror = _ => resolve(null)
-    image.src = url
-  })
-}

@@ -1,139 +1,173 @@
 <template>
-  <div class="home" v-if="$store.state.loaded.data">
-    <button @click="$store.dispatch('random')">random</button>
-   size <input type="range" min="10" max="3000" value="600" class="slider" v-model="$store.state.size" @change="$store.dispatch('loadImages')">
-    {{ siblingsFiltered.length }} total
-    {{ data.length }}
-    {{ item.url }}
-    {{ siblingsFiltered.length }}
-    {{ images.length }}
-    
-    <br>
-    <canvas ref="canvas"></canvas>
+  <div class="home">
+    <div class="welcome" v-if="loaded">
+      <form @submit="submit">
+        <input
+          type="text"
+          name="layerId"
+          v-model="id"
+          placeholder="Enter layer id"
+          class="input"
+        />
+        <button type="submit" class="button">Go</button>
+        <button class="button lucky" @click="random">♺</button>
+      </form>
 
-  <div class="credits">
-    <a 
-      v-for="s in siblingsFiltered"
-      :href="'https://www.reddit.com/r/Layer/comments/' + s.url"
-      target="_blank"
-      :key="s.id">{{s.layerId}}</a>
-  </div>
+      <!-- <img :src="image" v-if="image" class="image" /> -->
+    </div>
+    <div class="welcome" v-if="!loaded">
+      loading
+    </div>
+    <div class="qube-perspective spin" v-if="style">
+      <ul class="qube no-shading layercube">
+        <li class="front" :style="style"></li>
+        <li class="left" :style="style"></li>
+        <li class="back" :style="style"></li>
+        <li class="right" :style="style"></li>
+        <li class="top" :style="style"></li>
+        <li class="bottom" :style="style"></li>
+      </ul>
+    </div>
+    <a
+      class="credit"
+      v-if="item"
+      target="blank"
+      :href="'https://www.reddit.com/r/Layer/' + item.url"
+      >by {{ item.url }}</a
+    >
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import * as d3 from 'd3'
-import {Delaunay} from "d3-delaunay";
+import { mapGetters } from "vuex";
+import { makeUrlBig } from "../utils.js";
 
 export default {
-  name: 'home',
+  name: "home",
+  data: function() {
+    return {
+      id: null
+    };
+  },
   methods: {
-    rangeSlide: function(el,val){
-      console.log(el, val)
+    submit: function(e) {
+      console.log("submit", this.id);
+      e.preventDefault();
+      if (this.id) {
+        this.$router.push("/" + this.id);
+      }
     },
-    draw: function(){
-      draw(this.$refs.canvas, this.images)
+    random: function(e) {
+      // console.log("random");
+      this.id = this.data[parseInt(Math.random() * this.data.length)].layerId;
+      e.preventDefault();
     }
   },
   computed: {
-    ...mapGetters([
-      'data',
-      'item',
-      'siblingsFiltered',
-      'images'
-    ])
-  },
-  watch: {
-    images: function(images){
-      if(!images.length) return
-      console.log(images)
-      this.draw()
+    ...mapGetters(["data"]),
+    loaded: function() {
+      return this.data.length > 0;
     },
-    $route: {
-      handler: function(route) {
-        const { id } = route.params;
-        if(!id) {
-          return this.$store.dispatch("random")
-        }
-        console.log(id);
-        this.$store.state.id = id;
-        this.$store.dispatch("loadImages")
-      },
-      immediate: true
-    }
-  }
-}
-
-async function draw(canvas, images){
-  console.log(canvas)
-  const extent = [d3.extent(images, d => +d.x), d3.extent(images, d => +d.y)]
-  const width = 1920;
-  const height = 1080;
-  const x = d3.scaleLinear().domain(extent[0]).range([0, width]);
-  const y = d3.scaleLinear().domain(extent[1]).range([0, height]);
-  const points = d3.merge(images.map(d => [x(d.x),y(d.y)]));
-  const n = points.length
-  const radius = 128/5;
-  console.log(points)
-  const delaunay = new Delaunay(points);
-  const context = canvas.getContext('2d');
-  const omega = 1
-  canvas.width = width
-  canvas.height = height
-  context.lineCap = "square";
-  for (let i = 0; i < 400; ++i) {
-    const voronoi = delaunay.voronoi([0, 0, width, height]);
-    context.beginPath();
-    context.fillStyle = '#ffffff';
-    context.fillRect(0, 0, width, height);
-    //context.clearRect(0, 0, width, height);
-    //context.beginPath();
-    
-    for (let i = 0; i < n; i += 2) {
-      const cell = voronoi.cellPolygon(i >> 1);
-      if (cell === null) continue;
-      const x0 = points[i], y0 = points[i + 1];
-      const [x1, y1] = d3.polygonCentroid(cell);
-      //console.log(x1,y1)
-      //context.beginPath();
-      //console.log(i >> 1)
-      const id = i >> 1
-      const entry = images[id]
-      if(entry) {
-        //let radius = ra2(entry.distance)
-        context.drawImage(entry.image, x1-radius/2,y1-radius/2, radius, radius) 
+    item: function() {
+      if (this.id) {
+        return this.data.find(d => d.layerId === this.id);
+      } else {
+        return false;
       }
-     
-      //context.fillRect(x0, y0, 2,2);
-      //context.stroke();
-      //context.moveTo(x0, y0);
-      //context.lineTo(points[i] = x0 + (x1 - x0) * omega, points[i + 1] = y0 + (y1 - y0) * omega);
-      points[i] = x0 + (x1 - x0) * omega,
-      points[i + 1] = y0 + (y1 - y0) * omega
+    },
+    image: function() {
+      if (this.item) {
+        return makeUrlBig(this.item.id);
+      } else {
+        return false;
+      }
+    },
+    style: function() {
+      if (this.item) {
+        return `background-image: url(${makeUrlBig(this.item.id)});`;
+      } else {
+        return "";
+      }
     }
-    //context.fill();
-
-    //yield context.canvas;
-    delaunay.update();
-    await animationFrame()
   }
-}
-
-function animationFrame() {
-    let resolve = null
-    const promise = new Promise(r => resolve = r)
-    window.requestAnimationFrame(resolve)
-    return promise
-}
+};
 </script>
 
+<style scoped lang="stylus">
+@import '../assets/qube.css';
 
-<style scoped>
-  canvas {
-    width: 100vw;
-  }
-  .credits a{
-   display: block; 
-  }
+.home {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+.home .welcome {
+  z-index: 100;
+  padding: 20px;
+}
+
+.credit {
+  font-size: 10px;
+  padding: 10px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+.input {
+  font-size: 20px;
+  padding: 10px;
+  border: 1px solid #dadada;
+  border-radius: 3px;
+  line-height:1em;
+}
+.button {
+  font-size: 20px;
+  padding: 10px;
+  margin-left: 5px;
+  border-radius: 3px;
+  border: 1px solid #dadada;
+  background: #ff02df;
+  color: #000000b5;
+  cursor: pointer;
+  line-height:1em;
+}
+.lucky {
+  background: #fff;
+  opacity: 0.3;
+  margin-left: 10px;
+}
+.lucky:hover{
+  opacity: 1;
+}
+
+.spin {
+  position:absolute;
+}
+
+.spin .qube {
+    animation: rotateY linear infinite 20s;
+}
+
+button:focus {outline:0;}
+
+
+@keyframes rotateY {
+    from {
+        transform: rotateY(0) rotateX(0);
+    }
+    to {
+        transform: rotateY(359.99deg) rotateX(359.99deg);
+    }
+}
+
+.layercube {
+  width: 256px; height: 256px;
+ }
+.layercube > * {
+  background-size: contain;
+}
 </style>
