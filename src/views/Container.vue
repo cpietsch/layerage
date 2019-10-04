@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div v-if="!loaded.data">loading data</div>
-    <div v-if="!loaded.images">loading images</div>
+    <div v-if="!loaded.images">loading images {{loaded.number}} / {{size}}</div>
     <div v-if="loaded.data && item">
       <lanvas />
     </div>
@@ -29,7 +29,7 @@ export default {
   },
   computed: {
     ...mapGetters(["data", "item"]),
-    ...mapState(["loaded"])
+    ...mapState(["loaded", "size"])
   }
 };
 </script>

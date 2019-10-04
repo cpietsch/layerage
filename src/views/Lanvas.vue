@@ -55,7 +55,7 @@ async function draw(canvas, images) {
     .range([0, height]);
   const points = d3.merge(images.map(d => [x(d.x), y(d.y)]));
   const n = points.length;
-  const radius = 128 / 5;
+  const radius = 128 / 3;
   console.log(points);
   const delaunay = new Delaunay(points);
   const context = canvas.getContext("2d");

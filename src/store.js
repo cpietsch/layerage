@@ -13,10 +13,11 @@ export default new Vuex.Store({
   state: {
     loaded: {
       data: false,
-      images: false
+      images: false,
+      number: 0
     },
     id: null,
-    size: 1000
+    size: 500
   },
   mutations: {
 
@@ -30,11 +31,21 @@ export default new Vuex.Store({
     loadImages: async function({ dispatch, commit, getters, state }) {
       console.log("loadImages")
       state.loaded.images = false
-      return Promise.all(getters.siblingsFiltered.map(loadImage))
-        .then(values => {
-          images = values.filter(d => d)
-          state.loaded.images = true
-        })
+      const batchSize = 40
+      const size = getters.siblingsFiltered.length
+      for(let i = 0; i < size; i+=batchSize){
+        const num = Math.min(size-i,batchSize)
+        const end = Math.min(size-i,batchSize)+i
+        // console.log(i, num)
+        const loaded = await Promise.all(
+          getters.siblingsFiltered.filter((d,ii) => (ii>=i && ii<end)).map(loadImage)
+        )
+        // console.log(loaded)
+        loaded.forEach(l => l ? images.push(l) : '')
+        state.loaded.number = i
+      }
+      // console.log(images)
+      state.loaded.images = true
     },
     setId: function({ dispatch, commit, getters, state }, id) {
       console.log("id", id)
