@@ -30,6 +30,7 @@ export default new Vuex.Store({
     },
     loadImages: async function({ dispatch, commit, getters, state }) {
       console.log("loadImages")
+      images = []
       state.loaded.images = false
       const batchSize = 40
       const size = getters.siblingsFiltered.length

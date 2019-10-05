@@ -10,7 +10,7 @@
           class="input"
         />
         <button type="submit" class="button">Go</button>
-        <button class="button lucky" @click="random">♺</button>
+        <button class="button lucky" @click="random">Random</button>
       </form>
 
       <!-- <img :src="image" v-if="image" class="image" /> -->
