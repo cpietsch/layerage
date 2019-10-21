@@ -23,7 +23,7 @@ export default new Vuex.Store({
       number: 0
     },
     id: null,
-    size: 100,
+    size: 400,
     width: 1920,
     height: 1080,
     // width: 800,
