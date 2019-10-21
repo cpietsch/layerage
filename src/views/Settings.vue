@@ -32,8 +32,8 @@
     </div>
     <div>
       tool by
-      <a href="https://twitter.com/chrispiecom" target="_blank">Christopher Pietsch</a>
-      images by
+      <a href="https://twitter.com/chrispiecom" target="_blank">chrispie</a>
+      images by redditors of
       <a href="https://reddit.com/r/layer" target="_blank">/r/layer</a>
     </div>
     <div>
