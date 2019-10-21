@@ -1,5 +1,5 @@
-export function makeUrl(id){ return `https://vikusviewer.fh-potsdam.de/layer/data/png/128c/${id}.png`; }
-export function makeUrlBig(id){ return `https://vikusviewer.fh-potsdam.de/layer/data/png/256c/${id}.png`; }
+export function makeUrl(id){ return `https://vikusviewer.fh-potsdam.de/layers/data/png/128c/${id}.png`; }
+export function makeUrlBig(id){ return `https://vikusviewer.fh-potsdam.de/layers/data/png/256c/${id}.png`; }
 
 export function loadImage(d) {
   return new Promise((resolve, error) => {

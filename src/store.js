@@ -17,7 +17,11 @@ export default new Vuex.Store({
       number: 0
     },
     id: null,
-    size: 500
+    size: 400,
+    width: 1920,
+    height: 1080,
+    background: "#FFFFFF",
+    scale: 0.3
   },
   mutations: {
 
@@ -31,15 +35,16 @@ export default new Vuex.Store({
     loadImages: async function({ dispatch, commit, getters, state }) {
       console.log("loadImages")
       images = []
+      const siblings = getters.siblingsFiltered
       state.loaded.images = false
-      const batchSize = 40
+      const batchSize = 20
       const size = getters.siblingsFiltered.length
       for(let i = 0; i < size; i+=batchSize){
         const num = Math.min(size-i,batchSize)
         const end = Math.min(size-i,batchSize)+i
         // console.log(i, num)
         const loaded = await Promise.all(
-          getters.siblingsFiltered.filter((d,ii) => (ii>=i && ii<end)).map(loadImage)
+          siblings.filter((d,ii) => (ii>=i && ii<end)).map(loadImage)
         )
         // console.log(loaded)
         loaded.forEach(l => l ? images.push(l) : '')
@@ -47,10 +52,11 @@ export default new Vuex.Store({
       }
       // console.log(images)
       state.loaded.images = true
+      return images
     },
     setId: function({ dispatch, commit, getters, state }, id) {
       console.log("id", id)
-      const item = getters.data.find(d => d.layerId === id)
+      // const item = getters.data.find(d => d.layerId === id)
       //if(item) state.id = id
       //else router.push("/")
       state.id = id
@@ -63,6 +69,9 @@ export default new Vuex.Store({
     images: function(state) {
       return state.loaded.data && state.loaded.images ? images : []
     },
+    // images: function(state) {
+    //   return siblingsFiltered.map((d,i) => images[i])
+    // },
     item: function(state, getters) {
       return getters.data.find(d => d.layerId === state.id)
     },

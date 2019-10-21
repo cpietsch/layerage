@@ -10,7 +10,7 @@
           class="input"
         />
         <button type="submit" class="button">Go</button>
-        <button class="button lucky" @click="random">Random</button>
+        <button class="button lucky" @click="random">?!</button>
       </form>
 
       <!-- <img :src="image" v-if="image" class="image" /> -->
@@ -123,6 +123,7 @@ export default {
   border: 1px solid #dadada;
   border-radius: 3px;
   line-height:1em;
+  width: 150px;
 }
 .button {
   font-size: 20px;
