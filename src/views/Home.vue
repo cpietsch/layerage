@@ -2,22 +2,15 @@
   <div class="home">
     <div class="welcome" v-if="loaded">
       <form @submit="submit">
-        <input
-          type="text"
-          name="layerId"
-          v-model="id"
-          placeholder="Enter layer id"
-          class="input"
-        />
+        <input type="text" name="layerId" v-model="id" placeholder="Enter layer id" class="input" />
+        <button class="button lucky" @click="random">🎲</button>
+
         <button type="submit" class="button">Go</button>
-        <button class="button lucky" @click="random">?!</button>
       </form>
 
       <!-- <img :src="image" v-if="image" class="image" /> -->
     </div>
-    <div class="welcome" v-if="!loaded">
-      loading
-    </div>
+    <div class="welcome" v-if="!loaded">loading</div>
     <div class="qube-perspective spin" v-if="style">
       <ul class="qube no-shading layercube">
         <li class="front" :style="style"></li>
@@ -33,22 +26,21 @@
       v-if="item"
       target="blank"
       :href="'https://www.reddit.com/r/Layer/' + item.url"
-      >by {{ item.url }}</a
-    >
+    >by {{ item.url }}</a>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 import { makeUrlBig } from "../utils.js";
 
 export default {
   name: "home",
-  data: function() {
-    return {
-      id: null
-    };
-  },
+  // data: function() {
+  //   return {
+  //     id: null
+  //   };
+  // },
   methods: {
     submit: function(e) {
       console.log("submit", this.id);
@@ -59,12 +51,13 @@ export default {
     },
     random: function(e) {
       // console.log("random");
-      this.id = this.data[parseInt(Math.random() * this.data.length)].layerId;
+      this.$store.dispatch("setRandomId");
       e.preventDefault();
     }
   },
   computed: {
     ...mapGetters(["data"]),
+    ...mapState(["id"]),
     loaded: function() {
       return this.data.length > 0;
     },
@@ -89,6 +82,9 @@ export default {
         return "";
       }
     }
+  },
+  mounted: function() {
+    // if (!this.id) this.$store.dispatch("setRandomId");
   }
 };
 </script>
@@ -105,6 +101,7 @@ export default {
   padding: 0;
   margin: 0;
 }
+
 .home .welcome {
   z-index: 100;
   padding: 20px;
@@ -117,14 +114,16 @@ export default {
   bottom: 0;
   right: 0;
 }
+
 .input {
   font-size: 20px;
   padding: 10px;
   border: 1px solid #dadada;
   border-radius: 3px;
-  line-height:1em;
+  line-height: 1em;
   width: 150px;
 }
+
 .button {
   font-size: 20px;
   padding: 10px;
@@ -134,40 +133,46 @@ export default {
   background: #ff02df;
   color: #000000b5;
   cursor: pointer;
-  line-height:1em;
+  line-height: 1em;
 }
+
 .lucky {
   background: #fff;
   opacity: 0.3;
-  margin-left: 10px;
+  margin-right: 10px;
 }
-.lucky:hover{
+
+.lucky:hover {
   opacity: 1;
 }
 
 .spin {
-  position:absolute;
+  position: absolute;
 }
 
 .spin .qube {
-    animation: rotateY linear infinite 20s;
+  animation: rotateY linear infinite 20s;
 }
 
-button:focus {outline:0;}
-
+button:focus {
+  outline: 0;
+}
 
 @keyframes rotateY {
-    from {
-        transform: rotateY(0) rotateX(0);
-    }
-    to {
-        transform: rotateY(359.99deg) rotateX(359.99deg);
-    }
+  from {
+    transform: rotateY(0) rotateX(0);
+  }
+
+  to {
+    transform: rotateY(359.99deg) rotateX(359.99deg);
+  }
 }
 
 .layercube {
-  width: 256px; height: 256px;
- }
+  width: 256px;
+  height: 256px;
+}
+
 .layercube > * {
   background-size: contain;
 }
