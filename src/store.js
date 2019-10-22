@@ -23,7 +23,7 @@ export default new Vuex.Store({
       number: 0
     },
     id: null,
-    size: 400,
+    size: 200,
     width: 1920,
     height: 1080,
     // width: 800,
@@ -99,7 +99,7 @@ export default new Vuex.Store({
       return getters.data.find(d => d.layerId === state.id)
     },
     siblingsFiltered: function (state, getters) {
-      return getters.siblings.filter((d, i) => i < state.size)
+      return getters.siblings.filter((d, i) => i < state.size).reverse()
     },
     siblings: function (state, getters) {
       const { x, y } = getters.item

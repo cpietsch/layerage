@@ -17,18 +17,40 @@
     </div>
     <div>
       <label for="background">Background</label>
-      <input type="color" name="background" class="color" v-model="$store.state.background" />
+      <!-- <input type="color" name="background" class="color" v-model="$store.state.background" /> -->
+      <div
+        class="colorField"
+        :style="{ background: $store.state.background}"
+        @click="openColor = !openColor"
+      />
     </div>
-    <div class="colorBox">
+    <div class="colorBox" v-if="openColor">
       <chrome :value="$store.state.background" @input="updateBackground" :disableFields="true" />
     </div>
     <div>
-      <label for="size">How many</label>
-      <input type="range" min="1" max="4000" name="size" v-model.lazy="$store.state.size" />
+      <label for="size">{{ tooltipNum ? tooltipNum : 'How many' }}</label>
+      <input
+        type="range"
+        min="1"
+        max="4000"
+        name="size"
+        @input="tooltipNum = $event.target.value"
+        @change="tooltipNum = null, $store.state.size = $event.target.value"
+        :value="tooltipNum ? tooltipNum : $store.state.size"
+      />
     </div>
     <div>
-      <label for="size">Size</label>
-      <input type="range" min="0" max="1" step="0.01" name="scale" v-model="$store.state.scale" />
+      <label for="size">{{ tooltipSize }}</label>
+      <input
+        type="range"
+        min="0"
+        max="1"
+        step="0.01"
+        name="scale"
+        @input="tooltipSize = $event.target.value"
+        @change="tooltipSize = 'Size'"
+        v-model="$store.state.scale"
+      />
     </div>
     <div>
       tool by
@@ -56,11 +78,17 @@ export default {
   name: "settings",
   data: function() {
     return {
-      dataUrl: ""
+      dataUrl: "",
+      openColor: false,
+      tooltipSize: "Size",
+      tooltipNum: null
     };
   },
   components: { Chrome },
   methods: {
+    inputSize: function(e) {
+      console.log(e.target.value);
+    },
     download: async function(e) {
       const blob = await canvas2png(global.canvas);
       saveAs(blob, "layer.png");
@@ -114,11 +142,13 @@ async function canvas2png(canvas) {
 <style scoped>
 .container {
   padding: 20px;
-  width: 230px;
+  width: 240px;
   font-size: 14px;
   position: absolute;
   background: #ffffffeb;
   right: 0;
+  display: flex;
+  flex-flow: column;
 }
 
 .container > div {
@@ -132,18 +162,26 @@ label {
 input {
   font-size: 15px;
   padding: 5px;
-  margin-right: 5px;
   border: 1px solid #ccc;
   border-radius: 3px;
   height: 1em;
   display: inline-flex;
-  width: 100px;
+  width: 120px;
   text-align: center;
 }
 .color {
   padding: 0;
   height: 1.6em;
   width: 110px;
+}
+
+.colorField {
+  width: 120px;
+  padding: 5px;
+  height: 15px;
+  display: inline-flex;
+  border-radius: 3px;
+  border: 1px solid #ccc;
 }
 
 .colorBox {
@@ -164,5 +202,114 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 input[type="number"] {
   -moz-appearance: textfield;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  background: none;
+  border: none;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 5px;
+  background: #ddd;
+  border: none;
+  border-radius: 3px;
+}
+
+input[type="range"]::-ms-track {
+  height: 5px;
+  background: #ddd;
+  border: none;
+  border-radius: 3px;
+}
+
+input[type="range"]::-moz-range-track {
+  height: 5px;
+  background: #ddd;
+  border: none;
+  border-radius: 3px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: #555;
+  margin-top: -5px;
+  position: relative;
+}
+
+input[type="range"]::-ms-thumb {
+  -webkit-appearance: none;
+  border: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: #555;
+  margin-top: -5px;
+  position: relative;
+}
+
+input[type="range"]::-moz-range-thumb {
+  -webkit-appearance: none;
+  border: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: #555;
+  margin-top: -5px;
+  position: relative;
+}
+
+input[type="range"]:focus {
+  outline: none;
+  &::-webkit-slider-thumb:after {
+    position: absolute;
+    top: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #eee;
+    border-radius: 5px;
+    color: #555;
+    padding: 5px 10px;
+    border: 2px solid #555;
+  }
+  &::-ms-thumb:after {
+    position: absolute;
+    top: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #eee;
+    border-radius: 5px;
+    color: #555;
+    padding: 5px 10px;
+    border: 2px solid #555;
+  }
+  &::-moz-range-thumb:after {
+    position: absolute;
+    top: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #eee;
+    border-radius: 5px;
+    color: #555;
+    padding: 5px 10px;
+    border: 2px solid #555;
+  }
+}
+
+input[type="range"]:focus::-webkit-slider-runnable-track {
+  background: #ccc;
+}
+
+input[type="range"]:focus::-ms-track {
+  background: #ccc;
+}
+
+input[type="range"]:focus::-moz-range-track {
+  background: #ccc;
 }
 </style>

@@ -23,7 +23,8 @@ export default {
       this.context.fillRect(0, 0, this.width, this.height);
 
       const radius = imageDim * this.scale;
-      console.log(radius, this.scale);
+      console.log("draw");
+      // console.log(radius, this.scale);
       if (this.points) {
         for (const p of this.points) {
           // console.log(this.scale)
