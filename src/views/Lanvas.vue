@@ -17,6 +17,8 @@ export default {
       // download(this.$refs.canvas, "layers.png");
     },
     draw: function() {
+      let devicePixelRatio = window.devicePixelRatio;
+      console.log(this.width);
       this.$refs.canvas.width = this.width;
       this.$refs.canvas.height = this.height;
       this.context.fillStyle = this.background;
@@ -46,6 +48,7 @@ export default {
       return this.$refs.canvas.getContext("2d");
     },
     points: function() {
+      console.log(this.width);
       // console.time("calculate");
       // const p = calculate({
       //   images: this.images,
@@ -157,7 +160,7 @@ function calculateEasy({ images, width, height }) {
 
 <style scoped>
 canvas {
-  /*width: 100vw;*/
+  width: 100vw;
 }
 .credits a {
   display: block;
