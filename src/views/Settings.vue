@@ -28,7 +28,7 @@
       <chrome :value="$store.state.background" @input="updateBackground" :disableFields="true" />
     </div>
     <div>
-      <label for="size">{{ tooltipNum ? tooltipNum : 'How many' }}</label>
+      <label for="size">{{ tooltipNum ? tooltipNum + ' Layers' : 'How many' }}</label>
       <input
         type="range"
         min="1"
@@ -52,16 +52,17 @@
         v-model="$store.state.scale"
       />
     </div>
-    <div>
-      tool by
-      <a href="https://twitter.com/chrispiecom" target="_blank">chrispie</a>
-      images by redditors of
-      <a href="https://reddit.com/r/layer" target="_blank">/r/layer</a>
-    </div>
+
     <div>
       <!-- <a id="download" download="layers.png" :href="dataUrl"> -->
-      <button type="button" @click="download">Download</button>
+      <button type="button" @click="download" class="download">Download</button>
       <!-- </a> -->
+    </div>
+    <div class="credits">
+      images by redditors of
+      <a href="https://reddit.com/r/layer" target="_blank">/r/layer</a>,
+      tooling by
+      <a href="https://twitter.com/chrispiecom" target="_blank">chrispie</a>
     </div>
     <!-- <button type="submit" @click="submit" class="button">Generate</button> -->
     <!-- <button class="button lucky" @click="random">?!</button> -->
@@ -139,7 +140,7 @@ async function canvas2png(canvas) {
 }
 </script>
 
-<style scoped>
+<style scoped lang="stylus">
 .container {
   padding: 20px;
   width: 240px;
@@ -152,8 +153,9 @@ async function canvas2png(canvas) {
 }
 
 .container > div {
-  padding-bottom: 1em;
+  padding-bottom: 1.2em;
 }
+
 label {
   width: 100px;
   display: inline-block;
@@ -169,6 +171,7 @@ input {
   width: 120px;
   text-align: center;
 }
+
 .color {
   padding: 0;
   height: 1.6em;
@@ -188,50 +191,75 @@ input {
   /* margin-top: 5px; */
 }
 
-input[type="color"]::-webkit-color-swatch-wrapper {
+.credits {
+  // font-size: 12px;
+  line-height: 1.4em;
+  color: #555;
+}
+
+.download {
+  font-family: Consolas, Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  font-size: 15px;
+  padding: 10px;
+  border-radius: 3px;
+  border: none;
+  background: #e8e8e8;
+  color: #00000085;
+  cursor: pointer;
+  line-height: 1em;
+  width: 100%;
+
+  &:hover {
+    color: #000000;
+  }
+}
+
+input[type='color']::-webkit-color-swatch-wrapper {
   padding: 0;
 }
-input[type="color"]::-webkit-color-swatch {
+
+input[type='color']::-webkit-color-swatch {
   border: none;
 }
 
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
+input[type='number']::-webkit-outer-spin-button, input[type='number']::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-input[type="number"] {
+
+input[type='number'] {
   -moz-appearance: textfield;
 }
 
-input[type="range"] {
+input[type='range'] {
   -webkit-appearance: none;
   background: none;
   border: none;
 }
 
-input[type="range"]::-webkit-slider-runnable-track {
+input[type='range']::-webkit-slider-runnable-track {
   height: 5px;
   background: #ddd;
   border: none;
   border-radius: 3px;
 }
 
-input[type="range"]::-ms-track {
+input[type='range']::-ms-track {
   height: 5px;
   background: #ddd;
   border: none;
   border-radius: 3px;
 }
 
-input[type="range"]::-moz-range-track {
+input[type='range']::-moz-range-track {
   height: 5px;
   background: #ddd;
   border: none;
   border-radius: 3px;
 }
 
-input[type="range"]::-webkit-slider-thumb {
+input[type='range']::-webkit-slider-thumb {
   -webkit-appearance: none;
   border: none;
   height: 16px;
@@ -242,7 +270,7 @@ input[type="range"]::-webkit-slider-thumb {
   position: relative;
 }
 
-input[type="range"]::-ms-thumb {
+input[type='range']::-ms-thumb {
   -webkit-appearance: none;
   border: none;
   height: 16px;
@@ -253,7 +281,7 @@ input[type="range"]::-ms-thumb {
   position: relative;
 }
 
-input[type="range"]::-moz-range-thumb {
+input[type='range']::-moz-range-thumb {
   -webkit-appearance: none;
   border: none;
   height: 16px;
@@ -264,8 +292,9 @@ input[type="range"]::-moz-range-thumb {
   position: relative;
 }
 
-input[type="range"]:focus {
+input[type='range']:focus {
   outline: none;
+
   &::-webkit-slider-thumb:after {
     position: absolute;
     top: -35px;
@@ -277,6 +306,7 @@ input[type="range"]:focus {
     padding: 5px 10px;
     border: 2px solid #555;
   }
+
   &::-ms-thumb:after {
     position: absolute;
     top: -35px;
@@ -288,6 +318,7 @@ input[type="range"]:focus {
     padding: 5px 10px;
     border: 2px solid #555;
   }
+
   &::-moz-range-thumb:after {
     position: absolute;
     top: -35px;
@@ -301,15 +332,15 @@ input[type="range"]:focus {
   }
 }
 
-input[type="range"]:focus::-webkit-slider-runnable-track {
+input[type='range']:focus::-webkit-slider-runnable-track {
   background: #ccc;
 }
 
-input[type="range"]:focus::-ms-track {
+input[type='range']:focus::-ms-track {
   background: #ccc;
 }
 
-input[type="range"]:focus::-moz-range-track {
+input[type='range']:focus::-moz-range-track {
   background: #ccc;
 }
 </style>
