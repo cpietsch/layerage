@@ -150,6 +150,7 @@ async function canvas2png(canvas) {
   right: 0;
   display: flex;
   flex-flow: column;
+  user-select: none;
 }
 
 .container > div {
