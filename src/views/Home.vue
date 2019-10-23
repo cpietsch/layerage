@@ -5,12 +5,13 @@
         <input type="text" name="layerId" v-model="id" placeholder="Enter layer id" class="input" />
         <button class="button lucky" @click="random">🎲</button>
 
-        <button type="submit" class="button">Go</button>
+        <button type="submit" class="button">Build</button>
       </form>
 
       <!-- <img :src="image" v-if="image" class="image" /> -->
     </div>
     <div class="welcome" v-if="!loaded">loading</div>
+    <h1>Find your layer. Build a background.</h1>
     <div class="qube-perspective spin" v-if="style">
       <ul class="qube no-shading layercube">
         <li class="front" :style="style"></li>
@@ -102,6 +103,13 @@ export default {
   margin: 0;
 }
 
+h1 {
+  position: absolute;
+  top: 10%;
+  margin: 10px;
+  font-size: 28px;
+}
+
 .home .welcome {
   z-index: 100;
   padding: 20px;
@@ -129,8 +137,8 @@ export default {
   padding: 10px;
   margin-left: 5px;
   border-radius: 3px;
-  border: 1px solid #dadada;
-  background: #ff02df;
+  border: 1px solid #9f62bb;
+  background: #ce76f7;
   color: #000000b5;
   cursor: pointer;
   line-height: 1em;

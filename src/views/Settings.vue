@@ -32,7 +32,7 @@
       <input
         type="range"
         min="1"
-        max="4000"
+        max="3000"
         name="size"
         @input="tooltipNum = $event.target.value"
         @change="tooltipNum = null, $store.state.size = $event.target.value"
@@ -55,7 +55,7 @@
 
     <div>
       <!-- <a id="download" download="layers.png" :href="dataUrl"> -->
-      <button type="button" @click="download" class="download">Download</button>
+      <button type="button" @click="download" class="download">Save Background</button>
       <!-- </a> -->
     </div>
     <div class="credits">
@@ -199,12 +199,11 @@ input {
 
 .download {
   font-family: Consolas, Helvetica, Arial, sans-serif;
-  font-weight: bold;
   font-size: 15px;
   padding: 10px;
   border-radius: 3px;
   border: none;
-  background: #e8e8e8;
+  background: #ce76f7;
   color: #00000085;
   cursor: pointer;
   line-height: 1em;
@@ -212,6 +211,7 @@ input {
 
   &:hover {
     color: #000000;
+    background: #b05dd7;
   }
 }
 
