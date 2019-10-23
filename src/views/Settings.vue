@@ -1,9 +1,14 @@
 <template>
   <div class="container">
+    <div class="layerImg">
+      <a target="blank" :href="'https://www.reddit.com/r/Layer/comments/' + item.url">
+        <img :src="layerUrl" />
+      </a>
+    </div>
     <div>
       <label for="id">
         Layer id
-        <span @click="random">🎲</span>
+        <span @click="random" class="dice">🎲</span>
       </label>
       <input type="number" name="id" :value="$store.state.id" @change="updateId" />
     </div>
@@ -71,7 +76,7 @@
 
 <script>
 import { mapGetters, mapState } from "vuex";
-import { global } from "../utils.js";
+import { global, makeUrl } from "../utils.js";
 import { Chrome } from "vue-color";
 import { saveAs } from "file-saver";
 
@@ -131,7 +136,10 @@ export default {
   },
   computed: {
     ...mapGetters(["data", "item"]),
-    ...mapState(["loaded", "size"])
+    ...mapState(["loaded", "size"]),
+    layerUrl: function() {
+      return makeUrl(this.item.id);
+    }
   }
 };
 
@@ -155,6 +163,11 @@ async function canvas2png(canvas) {
 
 .container > div {
   padding-bottom: 1.2em;
+}
+
+.layerImg {
+  justify-content: center;
+  display: flex;
 }
 
 label {
@@ -190,6 +203,10 @@ input {
 
 .colorBox {
   /* margin-top: 5px; */
+}
+
+.dice {
+  cursor: pointer;
 }
 
 .credits {

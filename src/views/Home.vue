@@ -26,7 +26,7 @@
       class="credit"
       v-if="item"
       target="blank"
-      :href="'https://www.reddit.com/r/Layer/' + item.url"
+      :href="'https://www.reddit.com/r/Layer/comments/' + item.url"
     >by {{ item.url }}</a>
   </div>
 </template>
