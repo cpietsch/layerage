@@ -3,17 +3,18 @@
     <!-- <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
-    </div> -->
-    <router-view/>
+    </div>-->
+    <router-view />
   </div>
 </template>
 
 <style>
-html, body {
-    height: 100%;
+html,
+body {
+  height: 100%;
 }
 body {
-    margin: 0;
+  margin: 0;
 }
 #app {
   font-family: Consolas, Helvetica, Arial, sans-serif;
@@ -24,15 +25,28 @@ body {
   height: 100%;
   width: 100%;
 }
-
 </style>
 
 
 <script>
+import Shake from "shake.js";
 export default {
-  name: 'App',
+  name: "App",
   mounted: function() {
-    this.$store.dispatch("init")
+    this.$store.dispatch("init");
+
+    var myShakeEvent = new Shake({
+      threshold: 10
+    });
+    myShakeEvent.start();
+    window.addEventListener(
+      "shake",
+      () => {
+        // alert("shake");
+        this.$store.dispatch("setRandomId");
+      },
+      false
+    );
   }
-}
+};
 </script>

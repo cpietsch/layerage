@@ -16,6 +16,30 @@ export default {
     download: function(el) {
       // download(this.$refs.canvas, "layers.png");
     },
+    drawPoints: function() {
+      let devicePixelRatio = window.devicePixelRatio;
+      console.log(this.width);
+      this.$refs.canvas.width = this.width;
+      this.$refs.canvas.height = this.height;
+      this.context.fillStyle = this.background;
+      this.context.fillRect(0, 0, this.width, this.height);
+
+      const radius = imageDim * this.scale;
+      console.log("draw");
+      // console.log(radius, this.scale);
+      if (this.points) {
+        for (const p of this.points) {
+          // console.log(this.scale)
+          this.context.drawImage(
+            p.image,
+            p.px * scale - radius / 2,
+            p.py * scale - radius / 2,
+            radius,
+            radius
+          );
+        }
+      }
+    },
     draw: function() {
       let devicePixelRatio = window.devicePixelRatio;
       console.log(this.width);
@@ -58,7 +82,7 @@ export default {
       // console.timeEnd("calculate")
 
       const p = calculate({
-        images: this.images,
+        items: this.siblingsFiltered,
         width: this.width,
         height: this.height
       });
@@ -105,8 +129,8 @@ export default {
 const scale = 10;
 const imageDim = 128;
 
-function calculate({ images, width, height }) {
-  const extent = [d3.extent(images, d => +d.x), d3.extent(images, d => +d.y)];
+function calculate({ items, width, height }) {
+  const extent = [d3.extent(items, d => +d.x), d3.extent(items, d => +d.y)];
   const x = d3
     .scaleLinear()
     .domain(extent[0])
@@ -115,12 +139,12 @@ function calculate({ images, width, height }) {
     .scaleLinear()
     .domain(extent[1])
     .range([0, height / scale]);
-  const points = d3.merge(images.map(d => [x(d.x), y(d.y)]));
+  const points = d3.merge(items.map(d => [x(d.x), y(d.y)]));
   const n = points.length;
   console.log(points);
   const delaunay = new Delaunay(points);
   const omega = 1;
-  const out = images.map(d => [0, 0]);
+  const out = items.map(d => [0, 0]);
 
   for (let i = 0; i < 1000; ++i) {
     const voronoi = delaunay.voronoi([0, 0, width / scale, height / scale]);
