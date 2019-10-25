@@ -2,10 +2,16 @@
   <div class="home">
     <div class="welcome" v-if="loaded">
       <form @submit="submit">
-        <input type="text" name="layerId" v-model="id" placeholder="Enter layer id" class="input" />
-        <button class="button lucky" @click="random">🎲</button>
+        <input
+          type="text"
+          name="layerId"
+          v-model="$store.state.id"
+          placeholder="Enter layer id"
+          class="input"
+        />
+        <button type="button" class="button lucky" @click="random">🎲</button>
 
-        <button type="submit" class="button">Build</button>
+        <button autofocus type="submit" class="button">Build</button>
       </form>
 
       <!-- <img :src="image" v-if="image" class="image" /> -->
@@ -51,7 +57,7 @@ export default {
       }
     },
     random: function(e) {
-      // console.log("random");
+      console.log("random");
       this.$store.dispatch("setRandomId");
       e.preventDefault();
     }
