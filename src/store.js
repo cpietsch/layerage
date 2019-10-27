@@ -103,6 +103,7 @@ export default new Vuex.Store({
     },
     siblings: function(state, getters) {
       const { x, y } = getters.item;
+      // todo: use a quadtree for that
       return getters.data
         .map(d => {
           const distance = Math.hypot(d.x - x, d.y - y);
