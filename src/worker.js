@@ -20,7 +20,7 @@ function calculate(items, width, height) {
   const delaunay = new Delaunay(points);
   const omega = 1;
   const out = items.map(d => [x(d[0]) * scale, y(d[1]) * scale]);
-  let now = +new Date();
+  let now = Date.now();
 
   for (let i = 0; i < 2000; ++i) {
     const voronoi = delaunay.voronoi([0, 0, width / scale, height / scale]);
@@ -41,8 +41,8 @@ function calculate(items, width, height) {
 
     delaunay.update();
 
-    if (+new Date() - now > 16) {
-      now = +new Date();
+    if (Date.now() - now > 16) {
+      now = Date.now();
       postMessage(out);
     }
   }
