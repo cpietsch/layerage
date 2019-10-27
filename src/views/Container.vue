@@ -1,8 +1,7 @@
 <template>
   <div class="container">
-    <div class="loading" v-if="!loaded.data">loading data</div>
-    <div class="loading" v-if="!loaded.images">loading images {{loaded.number}} / {{size}}</div>
     <div v-if="loaded.data && item">
+      <loading />
       <settings />
       <lanvas :key="id" />
       <!-- <div class="credits">
@@ -22,12 +21,13 @@
 import { mapGetters, mapState } from "vuex";
 import Lanvas from "./Lanvas.vue";
 import Settings from "./Settings.vue";
-
+import Loading from "./Loading.vue";
 export default {
   name: "container",
   components: {
     Lanvas,
-    Settings
+    Settings,
+    Loading
   },
   methods: {},
   watch: {
@@ -56,9 +56,5 @@ export default {
   flex-flow: wrap;
   font-size: 10px;
   text-decoration: none;
-}
-
-.loading {
-  position: absolute;
 }
 </style>
