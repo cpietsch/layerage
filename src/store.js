@@ -5,7 +5,7 @@ import router from "./router";
 import { makeUrl, loadImage, global } from "./utils.js";
 
 let data = [];
-let images = [];
+let imageMap = {};
 
 Vue.use(Vuex);
 
@@ -18,6 +18,7 @@ export default new Vuex.Store({
     },
     id: null,
     size: 200,
+    images: [],
     width: Math.floor(window.screen.width * window.devicePixelRatio),
     height: Math.floor(window.screen.height * window.devicePixelRatio),
     // width: 800,
@@ -40,7 +41,9 @@ export default new Vuex.Store({
     },
     loadImages: async function({ dispatch, commit, getters, state }) {
       console.log("loadImages");
-      images = [];
+      imageMap = {};
+      state.images = [];
+
       const siblings = getters.siblingsFiltered;
       state.loaded.images = false;
       const batchSize = 20;
@@ -56,12 +59,18 @@ export default new Vuex.Store({
         );
         // console.log(loaded)
         // loaded.forEach(l => l ? images.push(l) : '')
-        loaded.forEach(l => images.push(l));
+        loaded
+          .filter(l => l)
+          .forEach(l => {
+            state.images.push(l.id);
+            imageMap[l.id] = l.image;
+          });
+        // console.log(loaded);
         state.loaded.number = i;
       }
       // console.log(images)
       state.loaded.images = true;
-      return images;
+      // return images;
     },
     setRandomId: function({ dispatch, getters }) {
       const id =
@@ -81,7 +90,7 @@ export default new Vuex.Store({
       return state.loaded.data ? data : [];
     },
     images: function(state) {
-      return state.loaded.data && state.loaded.images ? images : [];
+      return state.images.map(id => imageMap[id]);
     },
     // images: function(state) {
     //   return siblingsFiltered.map((d,i) => images[i])

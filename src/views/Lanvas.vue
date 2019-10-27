@@ -11,9 +11,9 @@ import { extent, merge } from "d3-array";
 import { polygonCentroid } from "d3-polygon";
 import { Delaunay } from "d3-delaunay";
 import { global } from "../utils.js";
-import Worker from "worker-loader!../worker.js";
+import Worker from "worker-loader!../layout.worker.js";
 
-let worker = new Worker();
+let worker = null;
 const imageDim = 128;
 let points = [];
 
@@ -104,12 +104,7 @@ export default {
     scale: function() {
       this.draw();
     },
-    points: function(points) {
-      console.log(points);
-      this.draw();
-    },
     images: function(images) {
-      if (!images.length) return;
       this.draw();
     }
   },

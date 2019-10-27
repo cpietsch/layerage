@@ -9,7 +9,7 @@ export function loadImage(id) {
   return new Promise((resolve, error) => {
     const url = makeUrl(id);
     const image = new Image();
-    image.onload = _ => resolve(image);
+    image.onload = _ => resolve({ id, image });
     image.onerror = _ => resolve(null);
     image.crossOrigin = "";
     image.src = url;
