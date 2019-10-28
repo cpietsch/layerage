@@ -10,7 +10,10 @@ export function loadImage(id) {
     const url = makeUrl(id);
     const image = new Image();
     image.onload = _ => resolve({ id, image });
-    image.onerror = _ => resolve(null);
+    image.onerror = _ => {
+      console.error("could not load", id);
+      resolve(null);
+    };
     image.crossOrigin = "";
     image.src = url;
   });
