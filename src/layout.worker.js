@@ -35,13 +35,13 @@ function calculate(items, width, height) {
       (points[i] = x0 + (x1 - x0) * omega),
         (points[i + 1] = y0 + (y1 - y0) * omega);
 
-      out[i >> 1][0] = Math.round(x1 * scale);
-      out[i >> 1][1] = Math.round(y1 * scale);
+      out[i >> 1][0] = x1 * scale;
+      out[i >> 1][1] = y1 * scale;
     }
 
     delaunay.update();
 
-    if (Date.now() - now > 16) {
+    if (Date.now() - now > 14) {
       now = Date.now();
       postMessage(out);
     }
