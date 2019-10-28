@@ -2,13 +2,42 @@
   <div class="home">
     <div class="welcome" v-if="loaded">
       <form @submit="submit">
-        <input
+        <!--         <input
           type="text"
           name="layerId"
           v-model="$store.state.id"
           placeholder="Enter layer id"
           class="input"
-        />
+        /> -->
+
+        <div class="searchBox">
+          <multiselect
+            :value="value"
+            :options="options"
+            placeholder="Layer name or id"
+            label="name"
+            track-by="lid"
+            :limit="40"
+            :custom-label="customLabel"
+            :options-limit="40"
+            :showLabels="false"
+            @input="inputSearch"
+            @open="openSearch"
+          >
+            <template slot="option" slot-scope="props">
+              <div class="option__desc">
+                <img
+                  class="option__image"
+                  :src="makeUrl(props.option.id)"
+                  :alt="props.option.name"
+                />
+                <span class="option__title">{{ props.option.name }}</span>
+                <span class="option__id">{{ props.option.lid }}</span>
+              </div>
+            </template>
+          </multiselect>
+        </div>
+
         <button type="button" class="button lucky" @click="random">🎲</button>
 
         <button autofocus type="submit" class="button">Build</button>
@@ -17,7 +46,7 @@
       <!-- <img :src="image" v-if="image" class="image" /> -->
     </div>
     <div class="welcome" v-if="!loaded">loading</div>
-    <h1>Find your layer. Build a background.</h1>
+    <h1><span>Find a layer.</span><span>Build a background.</span></h1>
     <div class="qube-perspective spin" v-if="style">
       <ul class="qube no-shading layercube">
         <li class="front" :style="style"></li>
@@ -33,22 +62,28 @@
       v-if="item"
       target="blank"
       :href="'https://www.reddit.com/r/Layer/comments/' + item.url"
-    >by {{ item.url }}</a>
+      >by {{ item.url }}</a
+    >
   </div>
 </template>
 
 <script>
 import { mapGetters, mapState } from "vuex";
-import { makeUrlBig } from "../utils.js";
+import { makeUrlBig, makeUrl } from "../utils.js";
+import Multiselect from "vue-multiselect";
 
 export default {
   name: "home",
+  components: {
+    Multiselect
+  },
   // data: function() {
   //   return {
-  //     id: null
+  //     value: null
   //   };
   // },
   methods: {
+    makeUrl,
     submit: function(e) {
       console.log("submit", this.id);
       e.preventDefault();
@@ -58,30 +93,54 @@ export default {
     },
     random: function(e) {
       console.log("random");
-      this.$store.dispatch("setRandomId");
+      const id = this.$store.dispatch("setRandomId");
       e.preventDefault();
+    },
+    inputSearch(value, id){
+      // console.log(value, id)
+      if(value && value.lid){
+        this.$store.dispatch("setId", value.lid);
+      }
+    },
+    openSearch(id){
+      console.log(id)
+    },
+    customLabel ({ name, lid }) {
+      return `${name} – ${lid}`
     }
   },
   computed: {
-    ...mapGetters(["data"]),
+    ...mapGetters(["data", "item"]),
     ...mapState(["id"]),
+    options: function() {
+      return this.data.map(d => ({
+        name: d.url.split("/")[1].replace(/_/g, " "),
+        lid: d.layerId,
+        id: d.id
+      }));
+    },
+    value: function(){
+      if(this.item){
+        const d = this.item
+        return {
+          name: d.url.split("/")[1].replace(/_/g, " "),
+          lid: d.layerId,
+          id: d.id
+        }
+      } else {
+        return null
+      }
+    },
     loaded: function() {
       return this.data.length > 0;
     },
-    item: function() {
-      if (this.id) {
-        return this.data.find(d => d.layerId === this.id);
-      } else {
-        return false;
-      }
-    },
-    image: function() {
-      if (this.item) {
-        return makeUrlBig(this.item.id);
-      } else {
-        return false;
-      }
-    },
+    // item: function() {
+    //   if (this.id) {
+    //     return this.data.find(d => d.layerId === this.id);
+    //   } else {
+    //     return false;
+    //   }
+    // },
     style: function() {
       if (this.item) {
         return `background-image: url(${makeUrlBig(this.item.id)});`;
@@ -96,8 +155,43 @@ export default {
 };
 </script>
 
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style scoped lang="stylus">
 @import '../assets/qube.css';
+// @import '/vue-multiselect/dist/vue-multiselect.min.css'
+
+.searchBox {
+  font-family: "Helvetica";
+  display: inline-block;
+  float: left;
+  width: 250px;
+}
+.option__desc {
+  font-size: 12px;
+  clear: both;
+  
+  .option__title {
+    font-weight: bold;
+    float:left;
+    max-width: 65%;
+    overflow: hidden;
+  }
+  
+  .option__id {
+    float: right;
+  }
+  
+  .option__image {
+    width: 25px;
+    height: 25px;
+    
+    float:left;
+    margin-right: 5px;
+    position: relative;
+    top: -5px;
+    left: -5px;
+  }
+}
 
 .home {
   display: flex;
@@ -114,6 +208,11 @@ h1 {
   top: 10%;
   margin: 10px;
   font-size: 28px;
+
+  span {
+    display: inline-flex;
+    margin-right: 0.5em;
+  }
 }
 
 .home .welcome {

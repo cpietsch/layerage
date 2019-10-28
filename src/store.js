@@ -76,6 +76,7 @@ export default new Vuex.Store({
       const id =
         getters.data[parseInt(Math.random() * getters.data.length)].layerId;
       dispatch("setId", id);
+      return id
     },
     setId: function({ dispatch, commit, getters, state }, id) {
       console.log("id", id);
