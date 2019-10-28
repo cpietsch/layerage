@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import { csv } from "d3";
+import { csv } from "d3-fetch";
 import router from "./router";
 import { makeUrl, loadImage, global } from "./utils.js";
 
