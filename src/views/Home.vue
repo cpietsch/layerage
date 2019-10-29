@@ -38,9 +38,10 @@
           </multiselect>
         </div>
 
+        <button autofocus type="submit" class="button">Build</button>
         <button type="button" class="button lucky" @click="random">🎲</button>
 
-        <button autofocus type="submit" class="button">Build</button>
+
       </form>
 
       <!-- <img :src="image" v-if="image" class="image" /> -->
@@ -164,7 +165,7 @@ export default {
   font-family: "Helvetica";
   display: inline-block;
   float: left;
-  width: 250px;
+  width: 230px;
 }
 .option__desc {
   font-size: 12px;
@@ -217,7 +218,7 @@ h1 {
 
 .home .welcome {
   z-index: 100;
-  padding: 20px;
+  padding: 10px;
 }
 
 .credit {
@@ -247,12 +248,16 @@ h1 {
   color: #000000b5;
   cursor: pointer;
   line-height: 1em;
+  float: left;
 }
 
 .lucky {
-  background: #fff;
-  opacity: 0.3;
-  margin-right: 10px;
+  font-size: 30px;
+  display: inline-block;
+  padding: 0px;
+  border: none;
+  background: none;
+  margin-top: 7px;
 }
 
 .lucky:hover {
