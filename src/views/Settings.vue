@@ -5,13 +5,13 @@
         <img :src="layerUrl" />
       </a>
     </div>
-    <div>
+    <!-- <div>
       <label for="id">
         Layer id
         <span @click="random" class="dice">🎲</span>
       </label>
       <input type="number" name="id" :value="$store.state.id" @change="updateId" />
-    </div>
+    </div> -->
     <div>
       <label for="width">Width</label>
       <input type="number" name="width" v-model.lazy="$store.state.width" />
@@ -37,18 +37,19 @@
       <input
         type="range"
         min="1"
-        max="3000"
+        max="100"
+        step="0.1"
         name="size"
-        @input="tooltipNum = $event.target.value"
-        @change="tooltipNum = null, $store.state.size = $event.target.value"
-        :value="tooltipNum ? tooltipNum : $store.state.size"
+        @input="tooltipNum = numScale($event.target.value)"
+        @change="tooltipNum = null, $store.state.size = numScale($event.target.value)"
+        :value="numScale.invert(tooltipNum ? tooltipNum : $store.state.size)"
       />
     </div>
     <div>
       <label for="size">{{ tooltipSize }}</label>
       <input
         type="range"
-        min="0"
+        min="0.1"
         max="1"
         step="0.01"
         name="scale"
@@ -79,6 +80,7 @@ import { mapGetters, mapState } from "vuex";
 import { global, makeUrl } from "../utils.js";
 import { Chrome } from "vue-color";
 import { saveAs } from "file-saver";
+import { scalePow } from "d3-scale";
 
 export default {
   name: "settings",
@@ -139,6 +141,9 @@ export default {
     ...mapState(["loaded", "size"]),
     layerUrl: function() {
       return makeUrl(this.item.id);
+    },
+    numScale: function(){
+      return scalePow().exponent(2).domain([1, 100]).rangeRound([10, 3000]).nice()
     }
   }
 };
@@ -163,6 +168,7 @@ async function canvas2png(canvas) {
 
 .container > div {
   padding-bottom: 1.2em;
+  clear:both;
 }
 
 .layerImg {
@@ -173,6 +179,8 @@ async function canvas2png(canvas) {
 label {
   width: 100px;
   display: inline-block;
+  float: left;
+  line-height: 2em;
 }
 
 input {
@@ -184,6 +192,7 @@ input {
   display: inline-flex;
   width: 120px;
   text-align: center;
+  float: left;
 }
 
 .color {

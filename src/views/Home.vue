@@ -2,13 +2,6 @@
   <div class="home">
     <div class="welcome" v-if="loaded">
       <form @submit="submit">
-        <!--         <input
-          type="text"
-          name="layerId"
-          v-model="$store.state.id"
-          placeholder="Enter layer id"
-          class="input"
-        /> -->
 
         <div class="searchBox">
           <multiselect
@@ -40,11 +33,7 @@
 
         <button autofocus type="submit" class="button">Build</button>
         <button type="button" class="button lucky" @click="random">🎲</button>
-
-
       </form>
-
-      <!-- <img :src="image" v-if="image" class="image" /> -->
     </div>
     <div class="welcome" v-if="!loaded">loading</div>
     <h1><span>Find a layer.</span><span>Build a background.</span></h1>
