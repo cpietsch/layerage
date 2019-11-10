@@ -11,7 +11,7 @@
         <span @click="random" class="dice">🎲</span>
       </label>
       <input type="number" name="id" :value="$store.state.id" @change="updateId" />
-    </div> -->
+    </div>-->
     <div>
       <label for="width">Width</label>
       <input type="number" name="width" v-model.lazy="$store.state.width" />
@@ -142,8 +142,12 @@ export default {
     layerUrl: function() {
       return makeUrl(this.item.id);
     },
-    numScale: function(){
-      return scalePow().exponent(2).domain([1, 100]).rangeRound([10, 3000]).nice()
+    numScale: function() {
+      return scalePow()
+        .exponent(2)
+        .domain([1, 100])
+        .rangeRound([10, 3000])
+        .nice();
     }
   }
 };
@@ -168,7 +172,7 @@ async function canvas2png(canvas) {
 
 .container > div {
   padding-bottom: 1.2em;
-  clear:both;
+  clear: both;
 }
 
 .layerImg {
@@ -180,7 +184,9 @@ label {
   width: 100px;
   display: inline-block;
   float: left;
-  line-height: 2em;
+  height: 1em;
+  padding-bottom: 5px;
+  padding-top: 5px;
 }
 
 input {
