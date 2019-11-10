@@ -121,6 +121,7 @@ export default {
 <style scoped>
 canvas {
   width: 100vw;
+  cursor: pointer;
 }
 .credits a {
   display: block;
