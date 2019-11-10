@@ -189,9 +189,9 @@ async function canvas2png(canvas) {
   backdrop-filter: blur(2px);
   font-family: Helvetica, Arial, sans-serif;
   transition: transform 0.6s;
-  
+
   &.closed {
-    transform: translate(0px,-330px);
+    transform: translate(0px, calc(-100% + 100px));
   }
 }
 
@@ -393,45 +393,49 @@ input[type='range']:focus::-moz-range-track {
   background: #ccc;
 }
 
-
 .hamburger {
   width: 30px;
   position: relative;
-  cursor: pointer
+  cursor: pointer;
   margin: auto;
-  padding: 10px;
-  
+  height: 10px;
+
   .a, .b, .c {
-    background:#000;
+    background: #000;
     width: 30px;
     height: 4px;
     position: absolute;
     border-radius: 2px;
     transition: all 0.5s;
+    transition-delay: 0.5s;
   }
-  
+
   .a {
-    transform: translateY(0px)
+    transform: translateY(0px);
   }
+
   .b {
     // transition: opacity 0.3s;
-    transform: translateY(8px)
+    transform: translateY(8px);
   }
+
   .c {
-    transform: translateY(16px)
+    transform: translateY(16px);
   }
-  
+
   &.arrow {
     .b {
       opacity: 0;
     }
+
     .a {
-      width: 25px
-      transform: translate(-3px, 8px) rotate(-45deg)
+      width: 25px;
+      transform: translate(-3px, 8px) rotate(-45deg);
     }
+
     .c {
-      width: 25px
-      transform: translate(13px, 8px) rotate(45deg)
+      width: 25px;
+      transform: translate(13px, 8px) rotate(45deg);
     }
   }
 }
