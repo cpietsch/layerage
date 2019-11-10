@@ -1,10 +1,10 @@
 <template>
   <div class="container" @click="closeColor">
-    <div class="layerImg">
+    <!-- <div class="layerImg">
       <a target="blank" v-if="hover" :href="'https://www.reddit.com/r/Layer/comments/' + item.url">
         <img :src="layerUrl" />
       </a>
-    </div>
+    </div>-->
     <!-- <div>
       <label for="id">
         Layer id
@@ -171,7 +171,7 @@ async function canvas2png(canvas) {
 
 <style scoped lang="stylus">
 .container {
-  padding: 20px;
+  padding: 30px;
   width: 240px;
   font-size: 14px;
   position: absolute;
@@ -180,6 +180,7 @@ async function canvas2png(canvas) {
   display: flex;
   flex-flow: column;
   user-select: none;
+  backdrop-filter: blur(2px);
 }
 
 .container > div {
@@ -248,15 +249,15 @@ input {
   padding: 10px;
   border-radius: 3px;
   border: none;
-  background: #ce76f7;
+  background: #fff;
   color: #00000085;
   cursor: pointer;
   line-height: 1em;
   width: 100%;
 
   &:hover {
-    color: #000000;
-    background: #b05dd7;
+    color: #fff;
+    background: #000;
   }
 }
 

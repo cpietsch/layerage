@@ -24,7 +24,7 @@ export default new Vuex.Store({
     height: Math.floor(window.screen.height * window.devicePixelRatio),
     // width: 800,
     // height: 600,
-    background: "#FFFFFF",
+    background: "#000000",
     scale: 0.3,
     dataUrl: null
   },

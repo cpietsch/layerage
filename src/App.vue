@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :style="{ background }">
     <!-- <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
@@ -30,8 +30,12 @@ body {
 
 <script>
 import Shake from "shake.js";
+import { mapState } from "vuex";
 export default {
   name: "App",
+  computed: {
+    ...mapState(["background"])
+  },
   mounted: function() {
     this.$store.dispatch("init");
 

@@ -6,10 +6,6 @@
 
 <script>
 import { mapGetters, mapState } from "vuex";
-import { scaleLinear } from "d3-scale";
-import { extent, merge } from "d3-array";
-import { polygonCentroid } from "d3-polygon";
-import { Delaunay } from "d3-delaunay";
 import { global } from "../utils.js";
 import Worker from "worker-loader!../layout.worker.js";
 
@@ -29,9 +25,9 @@ export default {
     mousemove: function(e) {
       const xScale = this.width / window.innerWidth;
       const yScale = this.height / window.innerHeight;
-      const scale = Math.max(xScale, yScale);
-      const x = parseInt(e.x * xScale);
-      const y = parseInt(e.y * xScale);
+      const scale = Math.max(xScale, 1);
+      const x = parseInt(e.x * scale);
+      const y = parseInt(e.y * scale);
       // console.log(x, y);
 
       if (worker) {
@@ -120,7 +116,7 @@ export default {
 
 <style scoped>
 canvas {
-  width: 100vw;
+  max-width: 100vw;
   cursor: pointer;
 }
 .credits a {
