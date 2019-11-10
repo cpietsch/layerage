@@ -9,6 +9,9 @@
 </template>
 
 <style>
+* {
+  box-sizing: border-box;
+}
 html,
 body {
   height: 100%;
@@ -17,7 +20,7 @@ body {
   margin: 0;
 }
 #app {
-  font-family: Consolas, Helvetica, Arial, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;

@@ -61,9 +61,9 @@
       <!-- </a> -->
     </div>
     <div class="credits">
-      images by redditors of
+      Images by redditors of
       <a href="https://reddit.com/r/layer" target="_blank">/r/layer</a>,
-      tooling by
+      Tooling by
       <a href="https://twitter.com/chrispiecom" target="_blank">chrispie</a>
     </div>
     <!-- <button type="submit" @click="submit" class="button">Generate</button> -->
@@ -171,8 +171,8 @@ async function canvas2png(canvas) {
 
 <style scoped lang="stylus">
 .container {
-  padding: 30px;
-  width: 240px;
+  padding: 20px;
+  width: 270px;
   font-size: 14px;
   position: absolute;
   background: #ffffffeb;
@@ -181,6 +181,7 @@ async function canvas2png(canvas) {
   flex-flow: column;
   user-select: none;
   backdrop-filter: blur(2px);
+  font-family: Helvetica, Arial, sans-serif;
 }
 
 .container > div {
@@ -207,30 +208,23 @@ input {
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 3px;
-  height: 1em;
-  display: inline-flex;
+  height: 30px;
   width: 120px;
   text-align: center;
   float: left;
 }
 
-.color {
-  padding: 0;
-  height: 1.6em;
-  width: 110px;
-}
-
 .colorField {
   width: 120px;
-  padding: 5px;
-  height: 15px;
-  display: inline-flex;
+  height: 30px;
+  display: inline-block;
+  float: left;
   border-radius: 3px;
   border: 1px solid #ccc;
 }
 
 .colorBox {
-  /* margin-top: 5px; */
+  margin: auto;
 }
 
 .dice {
@@ -244,20 +238,18 @@ input {
 }
 
 .download {
-  font-family: Consolas, Helvetica, Arial, sans-serif;
   font-size: 15px;
   padding: 10px;
   border-radius: 3px;
   border: none;
+  color: #000;
   background: #fff;
-  color: #00000085;
   cursor: pointer;
   line-height: 1em;
   width: 100%;
 
   &:hover {
-    color: #fff;
-    background: #000;
+    background: #ffffff7d;
   }
 }
 

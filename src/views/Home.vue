@@ -2,7 +2,6 @@
   <div class="home">
     <div class="welcome" v-if="loaded">
       <form @submit="submit">
-
         <div class="searchBox">
           <multiselect
             :value="value"
@@ -10,7 +9,7 @@
             placeholder="Layer name or id"
             label="name"
             track-by="lid"
-            :limit="40"
+            :limit="100"
             :custom-label="customLabel"
             :options-limit="40"
             :showLabels="false"
@@ -19,11 +18,7 @@
           >
             <template slot="option" slot-scope="props">
               <div class="option__desc">
-                <img
-                  class="option__image"
-                  :src="makeUrl(props.option.id)"
-                  :alt="props.option.name"
-                />
+                <img class="option__image" :src="makeUrl(props.option.id)" :alt="props.option.name" />
                 <span class="option__title">{{ props.option.name }}</span>
                 <span class="option__id">{{ props.option.lid }}</span>
               </div>
@@ -36,7 +31,10 @@
       </form>
     </div>
     <div class="welcome" v-if="!loaded">loading</div>
-    <h1><span>Find a layer.</span><span>Build a background.</span></h1>
+    <h1>
+      <span>Find a layer.</span>
+      <span>Build a background.</span>
+    </h1>
     <div class="qube-perspective spin" v-if="style">
       <ul class="qube no-shading layercube">
         <li class="front" :style="style"></li>
@@ -52,8 +50,7 @@
       v-if="item"
       target="blank"
       :href="'https://www.reddit.com/r/Layer/comments/' + item.url"
-      >by {{ item.url }}</a
-    >
+    >by {{ item.url }}</a>
   </div>
 </template>
 
@@ -86,17 +83,17 @@ export default {
       const id = this.$store.dispatch("setRandomId");
       e.preventDefault();
     },
-    inputSearch(value, id){
+    inputSearch(value, id) {
       // console.log(value, id)
-      if(value && value.lid){
+      if (value && value.lid) {
         this.$store.dispatch("setId", value.lid);
       }
     },
-    openSearch(id){
-      console.log(id)
+    openSearch(id) {
+      console.log(id);
     },
-    customLabel ({ name, lid }) {
-      return `${name} – ${lid}`
+    customLabel({ name, lid }) {
+      return `${name} – ${lid}`;
     }
   },
   computed: {
@@ -109,16 +106,16 @@ export default {
         id: d.id
       }));
     },
-    value: function(){
-      if(this.item){
-        const d = this.item
+    value: function() {
+      if (this.item) {
+        const d = this.item;
         return {
           name: d.url.split("/")[1].replace(/_/g, " "),
           lid: d.layerId,
           id: d.id
-        }
+        };
       } else {
-        return null
+        return null;
       }
     },
     loaded: function() {
@@ -148,34 +145,34 @@ export default {
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style scoped lang="stylus">
 @import '../assets/qube.css';
-// @import '/vue-multiselect/dist/vue-multiselect.min.css'
 
+// @import '/vue-multiselect/dist/vue-multiselect.min.css'
 .searchBox {
-  font-family: "Helvetica";
+  font-family: 'Helvetica';
   display: inline-block;
   float: left;
-  width: 230px;
+  width: 400px;
 }
+
 .option__desc {
-  font-size: 12px;
+  // font-size: 12px;
   clear: both;
-  
+
   .option__title {
     font-weight: bold;
-    float:left;
+    float: left;
     max-width: 65%;
     overflow: hidden;
   }
-  
+
   .option__id {
     float: right;
   }
-  
+
   .option__image {
     width: 25px;
     height: 25px;
-    
-    float:left;
+    float: left;
     margin-right: 5px;
     position: relative;
     top: -5px;
@@ -184,13 +181,15 @@ export default {
 }
 
 .home {
+  background: #FFF;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
-  width: 100%;
+  height: 100vh;
+  width: 100vw;
   padding: 0;
   margin: 0;
+  overflow: hidden;
 }
 
 h1 {
@@ -218,19 +217,10 @@ h1 {
   right: 0;
 }
 
-.input {
-  font-size: 20px;
-  padding: 10px;
-  border: 1px solid #dadada;
-  border-radius: 3px;
-  line-height: 1em;
-  width: 150px;
-}
-
 .button {
-  font-size: 20px;
+  font-size: 18px;
   padding: 10px;
-  margin-left: 5px;
+  margin-left: 10px;
   border-radius: 3px;
   border: 1px solid #9f62bb;
   background: #ce76f7;
@@ -241,7 +231,7 @@ h1 {
 }
 
 .lucky {
-  font-size: 30px;
+  font-size: 25px;
   display: inline-block;
   padding: 0px;
   border: none;
@@ -263,6 +253,23 @@ h1 {
 
 button:focus {
   outline: 0;
+}
+
+@media only screen and (max-width: 600px) {
+  .welcome {
+    width: 100%;
+  }
+
+  .button {
+    width: 100%;
+    margin: 0px;
+    margin-top: 10px;
+  }
+
+  .searchBox {
+    width: 100%;
+    margin: 0px;
+  }
 }
 
 @keyframes rotateY {
