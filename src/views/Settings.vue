@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" @click="closeColor">
     <div class="layerImg">
       <a target="blank" v-if="hover" :href="'https://www.reddit.com/r/Layer/comments/' + item.url">
         <img :src="layerUrl" />
@@ -23,13 +23,9 @@
     <div>
       <label for="background">Background</label>
       <!-- <input type="color" name="background" class="color" v-model="$store.state.background" /> -->
-      <div
-        class="colorField"
-        :style="{ background: $store.state.background}"
-        @click="openColor = !openColor"
-      />
+      <div class="colorField" :style="{ background: $store.state.background}" @click="toggleClick" />
     </div>
-    <div class="colorBox" v-if="openColor">
+    <div class="colorBox" v-if="openColor" @click="cancelClick">
       <chrome :value="$store.state.background" @input="updateBackground" :disableFields="true" />
     </div>
     <div>
@@ -94,8 +90,21 @@ export default {
   },
   components: { Chrome },
   methods: {
+    cancelClick: function(e) {
+      e.stopPropagation();
+      this.openColor = true;
+    },
+    toggleClick: function(e) {
+      e.stopPropagation();
+      this.openColor = !this.openColor;
+    },
     inputSize: function(e) {
       console.log(e.target.value);
+    },
+    closeColor: function(e) {
+      if (this.openColor) {
+        this.openColor = false;
+      }
     },
     download: async function(e) {
       const blob = await canvas2png(global.canvas);
