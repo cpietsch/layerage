@@ -65,12 +65,17 @@
       <button type="button" @click="download" class="download">Save Background</button>
       <!-- </a> -->
     </div>
-
-    <div class="hamburger" :class="{arrow: !closed}" @click="closed = !closed">
-      <div class="a"></div>
-      <div class="b"></div>
-      <div class="c"></div>
+    <div class="menu">
+      <div class="hamburger" :class="{arrow: !closed}" @click="closed = !closed">
+        <div class="a"></div>
+        <div class="b"></div>
+        <div class="c"></div>
+      </div>
+      <router-link to="/">
+        <svg class="searchIcon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M23.809 21.646l-6.205-6.205c1.167-1.605 1.857-3.579 1.857-5.711 0-5.365-4.365-9.73-9.731-9.73-5.365 0-9.73 4.365-9.73 9.73 0 5.366 4.365 9.73 9.73 9.73 2.034 0 3.923-.627 5.487-1.698l6.238 6.238 2.354-2.354zm-20.955-11.916c0-3.792 3.085-6.877 6.877-6.877s6.877 3.085 6.877 6.877-3.085 6.877-6.877 6.877c-3.793 0-6.877-3.085-6.877-6.877z"/></svg>
+      </router-link>
     </div>
+
     <!-- <button type="submit" @click="submit" class="button">Generate</button> -->
     <!-- <button class="button lucky" @click="random">?!</button> -->
   </div>
@@ -191,13 +196,13 @@ async function canvas2png(canvas) {
   transition: transform 0.6s;
 
   &.closed {
-    transform: translate(0px, calc(-100% + 100px));
+    transform: translate(0px, calc(-100% + 55px));
   }
-}
 
-.container > div {
-  padding-bottom: 1.2em;
-  clear: both;
+  > div {
+    padding-bottom: 1.2em;
+    clear: both;
+  }
 }
 
 .layerImg {
@@ -393,15 +398,20 @@ input[type='range']:focus::-moz-range-track {
   background: #ccc;
 }
 
+.container .menu {
+  position: relative;
+  padding-bottom: 0;
+  margin-top: 10px;
+}
+
 .hamburger {
   width: 30px;
   position: relative;
   cursor: pointer;
-  margin: auto;
-  height: 10px;
+  height: 20px;
 
   .a, .b, .c {
-    background: #000;
+    background: #484848;
     width: 30px;
     height: 4px;
     position: absolute;
@@ -437,6 +447,17 @@ input[type='range']:focus::-moz-range-track {
       width: 25px;
       transform: translate(13px, 8px) rotate(45deg);
     }
+  }
+}
+
+.searchIcon {
+  width: 30px;
+  right: 0;
+  position: absolute;
+  top: 0;
+
+  path {
+    fill: #484848;
   }
 }
 </style>

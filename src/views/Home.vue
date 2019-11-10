@@ -222,8 +222,8 @@ h1 {
   padding: 10px;
   margin-left: 10px;
   border-radius: 3px;
-  border: 1px solid #9f62bb;
-  background: #ce76f7;
+  border: 1px solid #d7d7d7;
+  background: #FFF;
   color: #000000b5;
   cursor: pointer;
   line-height: 1em;
