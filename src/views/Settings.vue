@@ -1,5 +1,5 @@
 <template>
-  <div class="container" @click="closeColor">
+  <div class="container" @click="closeColor" :class="{closed}">
     <!-- <div class="layerImg">
       <a target="blank" v-if="hover" :href="'https://www.reddit.com/r/Layer/comments/' + item.url">
         <img :src="layerUrl" />
@@ -54,17 +54,22 @@
         v-model="$store.state.scale"
       />
     </div>
-
-    <div>
-      <!-- <a id="download" download="layers.png" :href="dataUrl"> -->
-      <button type="button" @click="download" class="download">Save Background</button>
-      <!-- </a> -->
-    </div>
     <div class="credits">
       Images by redditors of
       <a href="https://reddit.com/r/layer" target="_blank">/r/layer</a>,
       Tooling by
       <a href="https://twitter.com/chrispiecom" target="_blank">chrispie</a>
+    </div>
+    <div>
+      <!-- <a id="download" download="layers.png" :href="dataUrl"> -->
+      <button type="button" @click="download" class="download">Save Background</button>
+      <!-- </a> -->
+    </div>
+
+    <div class="hamburger" :class="{arrow: !closed}" @click="closed = !closed">
+      <div class="a"></div>
+      <div class="b"></div>
+      <div class="c"></div>
     </div>
     <!-- <button type="submit" @click="submit" class="button">Generate</button> -->
     <!-- <button class="button lucky" @click="random">?!</button> -->
@@ -85,7 +90,8 @@ export default {
       dataUrl: "",
       openColor: false,
       tooltipSize: "Size",
-      tooltipNum: null
+      tooltipNum: null,
+      closed: false
     };
   },
   components: { Chrome },
@@ -182,6 +188,11 @@ async function canvas2png(canvas) {
   user-select: none;
   backdrop-filter: blur(2px);
   font-family: Helvetica, Arial, sans-serif;
+  transition: transform 0.6s;
+  
+  &.closed {
+    transform: translate(0px,-330px);
+  }
 }
 
 .container > div {
@@ -380,5 +391,48 @@ input[type='range']:focus::-ms-track {
 
 input[type='range']:focus::-moz-range-track {
   background: #ccc;
+}
+
+
+.hamburger {
+  width: 30px;
+  position: relative;
+  cursor: pointer
+  margin: auto;
+  padding: 10px;
+  
+  .a, .b, .c {
+    background:#000;
+    width: 30px;
+    height: 4px;
+    position: absolute;
+    border-radius: 2px;
+    transition: all 0.5s;
+  }
+  
+  .a {
+    transform: translateY(0px)
+  }
+  .b {
+    // transition: opacity 0.3s;
+    transform: translateY(8px)
+  }
+  .c {
+    transform: translateY(16px)
+  }
+  
+  &.arrow {
+    .b {
+      opacity: 0;
+    }
+    .a {
+      width: 25px
+      transform: translate(-3px, 8px) rotate(-45deg)
+    }
+    .c {
+      width: 25px
+      transform: translate(13px, 8px) rotate(45deg)
+    }
+  }
 }
 </style>
