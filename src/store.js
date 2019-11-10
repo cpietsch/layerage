@@ -16,6 +16,7 @@ export default new Vuex.Store({
       images: false,
       number: 0
     },
+    hover: null,
     id: null,
     size: 200,
     images: [],
@@ -76,7 +77,7 @@ export default new Vuex.Store({
       const id =
         getters.data[parseInt(Math.random() * getters.data.length)].layerId;
       dispatch("setId", id);
-      return id
+      return id;
     },
     setId: function({ dispatch, commit, getters, state }, id) {
       console.log("id", id);

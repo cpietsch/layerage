@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="layerImg">
-      <a target="blank" :href="'https://www.reddit.com/r/Layer/comments/' + item.url">
+      <a target="blank" v-if="hover" :href="'https://www.reddit.com/r/Layer/comments/' + item.url">
         <img :src="layerUrl" />
       </a>
     </div>
@@ -137,8 +137,11 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["data", "item"]),
-    ...mapState(["loaded", "size"]),
+    ...mapGetters(["data", "siblingsFiltered"]),
+    ...mapState(["loaded", "size", "hover"]),
+    item: function() {
+      return this.siblingsFiltered.find(d => d.layerId === this.hover);
+    },
     layerUrl: function() {
       return makeUrl(this.item.id);
     },
