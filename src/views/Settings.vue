@@ -60,19 +60,27 @@
       Tooling by
       <a href="https://twitter.com/chrispiecom" target="_blank">chrispie</a>
     </div>
-    <div>
-      <!-- <a id="download" download="layers.png" :href="dataUrl"> -->
-      <button type="button" @click="download" class="download">Save Background</button>
-      <!-- </a> -->
-    </div>
     <div class="menu">
       <div class="hamburger" :class="{arrow: !closed}" @click="closed = !closed">
         <div class="a"></div>
         <div class="b"></div>
         <div class="c"></div>
       </div>
+      <svg class="saveIcon" viewBox="0 0 24 24" @click="download">
+        <path d="M8 6h-5v15h18v-15h-5v-3h8v21h-24v-21h8v3zm5 6h4l-5 6-5-6h4v-12h2v12z" />
+      </svg>
       <router-link to="/">
-        <svg class="searchIcon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M23.809 21.646l-6.205-6.205c1.167-1.605 1.857-3.579 1.857-5.711 0-5.365-4.365-9.73-9.731-9.73-5.365 0-9.73 4.365-9.73 9.73 0 5.366 4.365 9.73 9.73 9.73 2.034 0 3.923-.627 5.487-1.698l6.238 6.238 2.354-2.354zm-20.955-11.916c0-3.792 3.085-6.877 6.877-6.877s6.877 3.085 6.877 6.877-3.085 6.877-6.877 6.877c-3.793 0-6.877-3.085-6.877-6.877z"/></svg>
+        <svg
+          class="searchIcon"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M23.809 21.646l-6.205-6.205c1.167-1.605 1.857-3.579 1.857-5.711 0-5.365-4.365-9.73-9.731-9.73-5.365 0-9.73 4.365-9.73 9.73 0 5.366 4.365 9.73 9.73 9.73 2.034 0 3.923-.627 5.487-1.698l6.238 6.238 2.354-2.354zm-20.955-11.916c0-3.792 3.085-6.877 6.877-6.877s6.877 3.085 6.877 6.877-3.085 6.877-6.877 6.877c-3.793 0-6.877-3.085-6.877-6.877z"
+          />
+        </svg>
       </router-link>
     </div>
 
@@ -96,7 +104,7 @@ export default {
       openColor: false,
       tooltipSize: "Size",
       tooltipNum: null,
-      closed: false
+      closed: true
     };
   },
   components: { Chrome },
@@ -409,6 +417,7 @@ input[type='range']:focus::-moz-range-track {
   position: relative;
   cursor: pointer;
   height: 20px;
+  margin-top: 3px;
 
   .a, .b, .c {
     background: #484848;
@@ -453,6 +462,18 @@ input[type='range']:focus::-moz-range-track {
 .searchIcon {
   width: 30px;
   right: 0;
+  position: absolute;
+  top: 0;
+
+  path {
+    fill: #484848;
+  }
+}
+
+.saveIcon {
+  cursor: pointer;
+  width: 25px;
+  left: calc(50% - 12px);
   position: absolute;
   top: 0;
 
