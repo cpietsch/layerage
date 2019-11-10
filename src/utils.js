@@ -12,7 +12,7 @@ export function loadImage(id) {
     image.onload = _ => resolve({ id, image });
     image.onerror = _ => {
       console.error("could not load", id);
-      resolve(null);
+      resolve({ id, image: null });
     };
     image.crossOrigin = "";
     image.src = url;

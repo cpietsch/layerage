@@ -19,11 +19,6 @@ let points = [];
 
 export default {
   name: "lanvas",
-  data: function() {
-    return {
-      hover: null
-    };
-  },
   methods: {
     click: function(e) {
       if (this.$store.state.hover) {
@@ -93,9 +88,8 @@ export default {
             const index = e.data.index;
             // console.log(index, points[index]);
             const id = this.siblingsFiltered[index].layerId;
-            console.log(index, id);
+            // console.log(index, id);
             this.$store.state.hover = id;
-            // this.hover = index;
           }
         };
 

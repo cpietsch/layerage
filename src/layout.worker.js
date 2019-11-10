@@ -3,10 +3,12 @@ import { extent, merge } from "d3-array";
 import { polygonCentroid } from "d3-polygon";
 import { Delaunay } from "d3-delaunay";
 
-const internalScale = 10;
+const internalScale = 2;
 let delaunay = null;
+let state = null;
 
 function calculate(items, width, height) {
+  state = "calculate";
   console.log("calculate");
   const extents = [extent(items, d => d[0]), extent(items, d => d[1])];
   const x = scaleLinear()
@@ -42,11 +44,11 @@ function calculate(items, width, height) {
         y0 = points[i + 1];
       const [x1, y1] = polygonCentroid(cell);
 
-      (points[i] = x0 + (x1 - x0) * omega),
-        (points[i + 1] = y0 + (y1 - y0) * omega);
+      points[i] = x0 + (x1 - x0) * omega;
+      points[i + 1] = y0 + (y1 - y0) * omega;
 
-      out[i >> 1][0] = parseInt(x1 * internalScale);
-      out[i >> 1][1] = parseInt(y1 * internalScale);
+      out[i >> 1][0] = parseInt(points[i] * internalScale);
+      out[i >> 1][1] = parseInt(points[i + 1] * internalScale);
     }
 
     delaunay.update();
@@ -56,7 +58,9 @@ function calculate(items, width, height) {
       postMessage({ type: "points", points: out });
     }
   }
-  return out;
+  state = null;
+  postMessage({ type: "points", points: out });
+  // return out;
 }
 
 // function Timeout(time) {
@@ -70,7 +74,7 @@ onmessage = function(e) {
     // console.log(data, width, height);
     calculate(data, width, height);
   }
-  if (e.data && e.data.type === "find" && delaunay) {
+  if (e.data && e.data.type === "find" && delaunay && state === null) {
     const { x, y } = e.data;
     // console.log(x, y);
     const index = delaunay.find(x / internalScale, y / internalScale);

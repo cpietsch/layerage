@@ -61,7 +61,7 @@ export default new Vuex.Store({
         // console.log(loaded)
         // loaded.forEach(l => l ? images.push(l) : '')
         loaded
-          .filter(l => l)
+          // .filter(l => l)
           .forEach(l => {
             state.images.push(l.id);
             imageMap[l.id] = l.image;
