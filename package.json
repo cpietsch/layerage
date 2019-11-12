@@ -17,16 +17,12 @@
     "d3-polygon": "^1.0.5",
     "d3-scale": "^3.2.0",
     "file-saver": "^2.0.2",
-    "gh-pages": "^2.1.1",
     "shake.js": "^1.2.2",
-    "stylus": "^0.54.7",
-    "stylus-loader": "^3.0.2",
     "vue": "^2.6.10",
     "vue-color": "^2.7.0",
     "vue-multiselect": "^2.1.6",
     "vue-router": "^3.0.3",
-    "vuex": "^3.0.1",
-    "worker-loader": "^2.0.0"
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.11.0",
@@ -35,7 +31,11 @@
     "babel-eslint": "^10.0.1",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
-    "vue-template-compiler": "^2.6.10"
+    "vue-template-compiler": "^2.6.10",
+    "gh-pages": "^2.1.1",
+    "worker-loader": "^2.0.0",
+    "stylus": "^0.54.7",
+    "stylus-loader": "^3.0.2"
   },
   "eslintConfig": {
     "root": true,
