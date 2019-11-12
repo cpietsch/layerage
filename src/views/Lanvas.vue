@@ -1,6 +1,6 @@
 <template>
   <div class="canvas">
-    <canvas ref="canvas" @mousemove="mousemove" @click="click"></canvas>
+    <canvas ref="canvas" @click="click"></canvas>
   </div>
 </template>
 
@@ -16,13 +16,27 @@ let points = [];
 export default {
   name: "lanvas",
   methods: {
-    click: function(e) {
-      if (this.$store.state.hover) {
-        this.$router.push("/" + this.$store.state.hover);
-        e.preventDefault();
-      }
+    calculate: function(e){
+      if (worker) { worker.terminate(); }
+      worker = new Worker();
+
+      worker.onmessage = e => {
+        if (e.data.type === "points") {
+          points = e.data.points;
+          this.draw();
+        }
+        if (e.data.type === "find") {
+          const index = e.data.index;
+          const id = this.siblingsFiltered[index].layerId;
+          this.$store.state.hover = id;
+        }
+      };
+
+      const data = this.siblingsFiltered.map(d => [d.x, d.y]);
+      const { width, height } = this;
+      worker.postMessage({ type: "calculate", data, width, height });
     },
-    mousemove: function(e) {
+    click: function(e) {
       const xScale = this.width / window.innerWidth;
       const yScale = this.height / window.innerHeight;
       const scale = Math.max(xScale, 1);
@@ -35,6 +49,7 @@ export default {
       }
     },
     draw: function() {
+      console.log("draw")
       this.$refs.canvas.width = this.width;
       this.$refs.canvas.height = this.height;
       this.context.fillStyle = this.background;
@@ -71,28 +86,7 @@ export default {
   watch: {
     siblingsFiltered: {
       handler: function(items) {
-        if (worker) {
-          worker.terminate();
-        }
-        worker = new Worker();
-        worker.onmessage = e => {
-          if (e.data.type === "points") {
-            points = e.data.points;
-            this.draw();
-          }
-          if (e.data.type === "find") {
-            const index = e.data.index;
-            // console.log(index, points[index]);
-            const id = this.siblingsFiltered[index].layerId;
-            // console.log(index, id);
-            this.$store.state.hover = id;
-          }
-        };
-
-        const data = items.map(d => [d.x, d.y]);
-        const { width, height } = this;
-        worker.postMessage({ type: "calculate", data, width, height });
-
+        this.calculate()
         this.$store.dispatch("loadImages");
       },
       immediate: true
@@ -103,12 +97,17 @@ export default {
     scale: function() {
       this.draw();
     },
-    images: function(images) {
+    images: function() {
       this.draw();
+    },
+    width: function() {
+      this.calculate()
+    },
+    height: function() {
+      this.calculate()
     }
   },
   mounted: function() {
-    // this.$store.dispatch("loadImages");
     global.canvas = this.$refs.canvas;
   }
 };
