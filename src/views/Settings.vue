@@ -62,10 +62,15 @@
       />
     </div>
     <div class="credits">
-      Images by redditors of
-      <a href="https://reddit.com/r/layer" target="_blank">/r/layer</a>
-      Tooling by
-      <a href="https://twitter.com/chrispiecom" target="_blank">chrispie</a>
+      <div class="mobileHint">Shake ya phone for a random layer</div>
+      <div>
+        Images by redditors of
+        <a href="https://reddit.com/r/layer" target="_blank">/r/layer</a>
+      </div>
+      <div>
+        Tooling by
+        <a href="https://twitter.com/chrispiecom" target="_blank">chrispie</a>
+      </div>
     </div>
     <div class="menu">
       <div class="hamburger" :class="{arrow: !closed}" @click="closed = !closed">
@@ -296,6 +301,17 @@ input {
   padding: 20px;
   border-radius: 5px;
 }
+
+.mobileHint {
+  display:none;
+}
+  
+@media only screen and (max-width: 600px) {
+  .mobileHint {
+    display:block;
+  }
+}
+
 
 .hamburger {
   width: 36px;

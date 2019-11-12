@@ -25,8 +25,6 @@ body {
   font-family: 'Hind', sans-serif;
   color: #2c3e50;
   display: flex;
-  height: 100%;
-  width: 100%;
 }
 </style>
 
