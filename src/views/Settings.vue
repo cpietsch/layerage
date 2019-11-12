@@ -1,17 +1,25 @@
 <template>
   <div class="container" @click="closeColor" :class="{closed}">
-    <!-- <div class="layerImg">
-      <a target="blank" v-if="hover" :href="'https://www.reddit.com/r/Layer/comments/' + item.url">
-        <img :src="layerUrl" />
-      </a>
-    </div>-->
-    <!-- <div>
+     <div class="layerImg" v-if="hover">
+      <div>
+        <a target="blank" :href="'https://www.reddit.com/r/Layer/comments/' + item.url">
+          <img :src="layerUrl" />
+        </a>
+      </div>
+      <div>
+        {{ item.url }}
+        by {{ item.author }}
+        Layer Id {{ item.layerId }}
+        <router-link :to="'/' + item.layerId">start here</router-link>
+      </div>
+    </div>
+<!--      <div>
       <label for="id">
         Layer id
         <span @click="random" class="dice">🎲</span>
       </label>
       <input type="number" name="id" :value="$store.state.id" @change="updateId" />
-    </div>-->
+    </div> -->
     <div>
       <label for="width">Width</label>
       <input type="number" name="width" v-model.lazy="$store.state.width" />
@@ -56,7 +64,7 @@
     </div>
     <div class="credits">
       Images by redditors of
-      <a href="https://reddit.com/r/layer" target="_blank">/r/layer</a>,
+      <a href="https://reddit.com/r/layer" target="_blank">/r/layer</a>
       Tooling by
       <a href="https://twitter.com/chrispiecom" target="_blank">chrispie</a>
     </div>
@@ -66,7 +74,7 @@
         <div class="b"></div>
         <div class="c"></div>
       </div>
-      <svg class="saveIcon" viewBox="0 0 24 24" @click="download">
+      <svg @click="download" class="saveIcon" viewBox="0 0 24 24" alt="Download Background">
         <path d="M8 6h-5v15h18v-15h-5v-3h8v21h-24v-21h8v3zm5 6h4l-5 6-5-6h4v-12h2v12z" />
       </svg>
       <router-link to="/">
@@ -83,9 +91,6 @@
         </svg>
       </router-link>
     </div>
-
-    <!-- <button type="submit" @click="submit" class="button">Generate</button> -->
-    <!-- <button class="button lucky" @click="random">?!</button> -->
   </div>
 </template>
 
@@ -104,7 +109,7 @@ export default {
       openColor: false,
       tooltipSize: "Size",
       tooltipNum: null,
-      closed: true
+      closed: false
     };
   },
   components: { Chrome },
@@ -148,7 +153,6 @@ export default {
       this.$router.push("/" + id);
     },
     updateBackground: function(color) {
-      // console.log(color.hex);
       this.$store.state.background = color.hex;
     },
     submit: function(e) {
@@ -200,11 +204,10 @@ async function canvas2png(canvas) {
   flex-flow: column;
   user-select: none;
   backdrop-filter: blur(2px);
-  font-family: Helvetica, Arial, sans-serif;
   transition: transform 0.6s;
 
   &.closed {
-    transform: translate(0px, calc(-100% + 55px));
+    transform: translate(0px, calc(-100% + 60px));
   }
 
   > div {
@@ -216,6 +219,7 @@ async function canvas2png(canvas) {
 .layerImg {
   justify-content: center;
   display: flex;
+  flex-flow: collumn;
 }
 
 label {
@@ -225,6 +229,7 @@ label {
   height: 1em;
   padding-bottom: 5px;
   padding-top: 5px;
+  font-weight: 500;
 }
 
 input {
@@ -406,26 +411,28 @@ input[type='range']:focus::-moz-range-track {
   background: #ccc;
 }
 
-.container .menu {
+.menu {
   position: relative;
-  padding-bottom: 0;
-  margin-top: 10px;
+  margin: -20px;
+  margin-top: 0px;
+  background:#FFF;
+  padding: 20px;
 }
 
 .hamburger {
-  width: 30px;
-  position: relative;
+  width: 36px;
   cursor: pointer;
   height: 20px;
-  margin-top: 3px;
+  margin-top: 5px;
+  float: left;
 
   .a, .b, .c {
     background: #484848;
-    width: 30px;
-    height: 4px;
+    width: 29px;
+    height: 3px;
     position: absolute;
     border-radius: 2px;
-    transition: all 0.5s;
+    transition: transform 0.5s, width 0.5s, opacity 0.5s;
     transition-delay: 0.5s;
   }
 
@@ -435,11 +442,11 @@ input[type='range']:focus::-moz-range-track {
 
   .b {
     // transition: opacity 0.3s;
-    transform: translateY(8px);
+    transform: translateY(7px);
   }
 
   .c {
-    transform: translateY(16px);
+    transform: translateY(14px);
   }
 
   &.arrow {
@@ -459,23 +466,23 @@ input[type='range']:focus::-moz-range-track {
   }
 }
 
-.searchIcon {
-  width: 30px;
-  right: 0;
-  position: absolute;
-  top: 0;
+.saveIcon {
+  position: relative;
+  cursor: pointer;
+  width: 24px;
+  left: 70px;
+  float: left;
 
   path {
     fill: #484848;
   }
 }
 
-.saveIcon {
+.searchIcon {
   cursor: pointer;
-  width: 25px;
-  left: calc(50% - 12px);
-  position: absolute;
-  top: 0;
+  width: 24px;
+  left: 73px;
+  float: right;
 
   path {
     fill: #484848;
