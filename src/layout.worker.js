@@ -29,7 +29,7 @@ function calculate(items, width, height) {
   ]);
   let now = Date.now();
 
-  for (let i = 0; i < 2000; ++i) {
+  for (let i = 0; i < 3000; ++i) {
     const voronoi = delaunay.voronoi([
       0,
       0,
