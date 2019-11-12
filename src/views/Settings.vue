@@ -7,10 +7,10 @@
         </a>
       </div>
       <div>
-        {{ item.url }}
+        {{ item.url.split("/")[1].replace(/_/g, " ") }}
         by {{ item.author }}
         Layer Id {{ item.layerId }}
-        <router-link :to="'/' + item.layerId">start here</router-link>
+        <router-link :to="'/' + item.layerId">center</router-link>
       </div>
     </div>
 <!--      <div>
