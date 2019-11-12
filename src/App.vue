@@ -11,9 +11,11 @@
 <style>
 * {
   box-sizing: border-box;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 html,
 body {
+  overflow-x: hidden;
   height: 100%;
 }
 body {

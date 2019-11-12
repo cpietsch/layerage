@@ -1,16 +1,15 @@
 <template>
   <div class="container" @click="closeColor" :class="{closed}">
-     <div class="layerImg" v-if="hover">
-      <div>
+     <div class="layerInfo" v-if="hover">
+      <div class="left">
         <a target="blank" :href="'https://www.reddit.com/r/Layer/comments/' + item.url">
           <img :src="layerUrl" />
         </a>
       </div>
-      <div>
-        {{ item.url.split("/")[1].replace(/_/g, " ") }}
-        by {{ item.author }}
-        Layer Id {{ item.layerId }}
-        <router-link :to="'/' + item.layerId">center</router-link>
+      <div class="right">
+        <div>{{ item.url.split("/")[1].replace(/_/g, " ") }}</div>
+        <div>{{ item.author }}</div>
+        <router-link :to="'/' + item.layerId">{{ item.layerId }}</router-link>
       </div>
     </div>
 <!--      <div>
@@ -76,6 +75,9 @@
       </div>
       <svg @click="download" class="saveIcon" viewBox="0 0 24 24" alt="Download Background">
         <path d="M8 6h-5v15h18v-15h-5v-3h8v21h-24v-21h8v3zm5 6h4l-5 6-5-6h4v-12h2v12z" />
+      </svg>
+      <svg @click="random" class="randomIcon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M10.848 15.932c-.399.781-.732 1.599-1.003 2.447-1.14-2.552-3.109-4.676-5.912-6.267l-1.463 2.656-2.47-5.881 6.33-1.126-1.433 2.601c2.606 1.472 4.593 3.349 5.951 5.57zm9.219-3.819l1.463 2.655 2.47-5.881-6.33-1.126 1.433 2.601c-5.339 3.017-8.103 7.72-8.103 13.638h2c0-5.144 2.405-9.241 7.067-11.887zm-8.025-12.113l-4.042 5h3v7.762c.352.409.684.831.991 1.269.312-.443.65-.87 1.009-1.286v-7.745h3l-3.958-5z"/>
       </svg>
       <router-link to="/">
         <svg
@@ -146,24 +148,11 @@ export default {
       //   .replace("image/png", "image/octet-stream");
       // console.log(url);
     },
-    updateId: function(e) {
-      // console.log(e.target.value);
-      // this.$store.dispatch("setId", e.target.value);
-      const id = e.target.value;
-      this.$router.push("/" + id);
-    },
     updateBackground: function(color) {
       this.$store.state.background = color.hex;
     },
-    submit: function(e) {
-      console.log("submit", this.id);
-      e.preventDefault();
-      //this.$router.push("/" + this.id);
-    },
     random: function(e) {
-      // console.log("random");
       const id = this.data[parseInt(Math.random() * this.data.length)].layerId;
-      // this.$store.dispatch("setId", id);
       this.$router.push("/" + id);
       e.preventDefault();
     }
@@ -193,6 +182,12 @@ async function canvas2png(canvas) {
 </script>
 
 <style scoped lang="stylus">
+
+a {
+  color:#000;
+  text-decoration:none;
+}
+
 .container {
   padding: 20px;
   width: 270px;
@@ -203,23 +198,33 @@ async function canvas2png(canvas) {
   display: flex;
   flex-flow: column;
   user-select: none;
-  backdrop-filter: blur(2px);
+  // backdrop-filter: blur(10px);
   transition: transform 0.6s;
-
+  box-shadow: 0px 0px 15px 2px rgba(0,0,0,0.3);
+  border-radius: 5px;
+  will-change: transform;
+  transform: translateY(-5px);
+  
   &.closed {
-    transform: translate(0px, calc(-100% + 60px));
+    transform: translateY(calc(-100% + 55px));
   }
 
   > div {
     padding-bottom: 1.2em;
     clear: both;
   }
+
 }
 
-.layerImg {
-  justify-content: center;
+.layerInfo {
   display: flex;
   flex-flow: collumn;
+  
+  .left {
+    width:128px;
+    height:128px;
+    margin-right: 10px;
+  }
 }
 
 label {
@@ -281,6 +286,102 @@ input {
     background: #ffffff7d;
   }
 }
+
+
+.menu {
+  position: relative;
+  margin: -20px;
+  margin-top: 0px;
+  background:#FFF;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.hamburger {
+  width: 36px;
+  cursor: pointer;
+  height: 20px;
+  margin-top: 3px;
+  float: left;
+  transform: scale(0.8);
+
+  .a, .b, .c {
+    background: #484848;
+    width: 29px;
+    height: 3px;
+    position: absolute;
+    border-radius: 2px;
+    transition: transform 0.5s, width 0.5s, opacity 0.5s;
+    transition-delay: 0.5s;
+  }
+
+  .a {
+    transform: translateY(0px);
+  }
+
+  .b {
+    // transition: opacity 0.3s;
+    transform: translateY(7px);
+  }
+
+  .c {
+    transform: translateY(14px);
+  }
+
+  &.arrow {
+    .b {
+      opacity: 0;
+    }
+
+    .a {
+      width: 25px;
+      transform: translate(-3px, 8px) rotate(-45deg);
+    }
+
+    .c {
+      width: 25px;
+      transform: translate(13px, 8px) rotate(45deg);
+    }
+  }
+}
+
+.saveIcon {
+  position: relative;
+  cursor: pointer;
+  width: 20px;
+  left: 105px;
+  float: left;
+
+  path {
+    fill: #484848;
+  }
+}
+
+.randomIcon {
+  cursor: pointer;
+  width: 20px;
+  left: 16px;
+  float: left;
+  position: relative;
+
+  path {
+    fill: #484848;
+  }
+}
+
+.searchIcon {
+  cursor: pointer;
+  width: 20px;
+  left: 73px;
+  float: right;
+
+  path {
+    fill: #484848;
+  }
+}
+
+
+
 
 input[type='color']::-webkit-color-swatch-wrapper {
   padding: 0;
@@ -411,81 +512,6 @@ input[type='range']:focus::-moz-range-track {
   background: #ccc;
 }
 
-.menu {
-  position: relative;
-  margin: -20px;
-  margin-top: 0px;
-  background:#FFF;
-  padding: 20px;
-}
 
-.hamburger {
-  width: 36px;
-  cursor: pointer;
-  height: 20px;
-  margin-top: 5px;
-  float: left;
 
-  .a, .b, .c {
-    background: #484848;
-    width: 29px;
-    height: 3px;
-    position: absolute;
-    border-radius: 2px;
-    transition: transform 0.5s, width 0.5s, opacity 0.5s;
-    transition-delay: 0.5s;
-  }
-
-  .a {
-    transform: translateY(0px);
-  }
-
-  .b {
-    // transition: opacity 0.3s;
-    transform: translateY(7px);
-  }
-
-  .c {
-    transform: translateY(14px);
-  }
-
-  &.arrow {
-    .b {
-      opacity: 0;
-    }
-
-    .a {
-      width: 25px;
-      transform: translate(-3px, 8px) rotate(-45deg);
-    }
-
-    .c {
-      width: 25px;
-      transform: translate(13px, 8px) rotate(45deg);
-    }
-  }
-}
-
-.saveIcon {
-  position: relative;
-  cursor: pointer;
-  width: 24px;
-  left: 70px;
-  float: left;
-
-  path {
-    fill: #484848;
-  }
-}
-
-.searchIcon {
-  cursor: pointer;
-  width: 24px;
-  left: 73px;
-  float: right;
-
-  path {
-    fill: #484848;
-  }
-}
 </style>
