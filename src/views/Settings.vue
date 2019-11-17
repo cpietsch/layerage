@@ -1,5 +1,6 @@
 <template>
   <div class="container" @click="closeColor" :class="{closed}">
+    {{ isMobile}}
     <div class="layerInfo" v-if="idSelected">
       <div class="left">
         <a target="blank" :href="'https://www.reddit.com/r/Layer/comments/' + itemSelected.url">
@@ -168,7 +169,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["data", "siblingsFiltered"]),
+    ...mapGetters(["data", "siblingsFiltered", "isMobile"]),
     ...mapState(["loaded", "size", "idSelected"]),
     itemSelected: function() {
       return this.siblingsFiltered.find(d => d.layerId === this.idSelected);
@@ -183,6 +184,9 @@ export default {
         .rangeRound([10, 3000])
         .nice();
     }
+  },
+  created: function() {
+    this.closed = this.isMobile;
   }
 };
 
@@ -221,6 +225,16 @@ a {
   > div {
     padding-bottom: 1.2em;
     clear: both;
+  }
+}
+
+.mobileHint {
+  display: none;
+}
+
+@media only screen and (max-width: 600px) {
+  .mobileHint {
+    display: block;
   }
 }
 
@@ -302,16 +316,6 @@ input {
   background: #FFF;
   padding: 20px;
   border-radius: 5px;
-}
-
-.mobileHint {
-  display: none;
-}
-
-@media only screen and (max-width: 600px) {
-  .mobileHint {
-    display: block;
-  }
 }
 
 .hamburger {
