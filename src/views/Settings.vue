@@ -1,24 +1,24 @@
 <template>
   <div class="container" @click="closeColor" :class="{closed}">
-     <div class="layerInfo" v-if="hover">
+    <div class="layerInfo" v-if="idSelected">
       <div class="left">
-        <a target="blank" :href="'https://www.reddit.com/r/Layer/comments/' + item.url">
+        <a target="blank" :href="'https://www.reddit.com/r/Layer/comments/' + itemSelected.url">
           <img :src="layerUrl" />
         </a>
       </div>
       <div class="right">
-        <div>{{ item.url.split("/")[1].replace(/_/g, " ") }}</div>
-        <div>{{ item.author }}</div>
-        <router-link :to="'/' + item.layerId">{{ item.layerId }}</router-link>
+        <div>{{ itemSelected.title }}</div>
+        <div>{{ itemSelected.author }}</div>
+        <router-link :to="'/' + itemSelected.layerId">{{ itemSelected.layerId }}</router-link>
       </div>
     </div>
-<!--      <div>
+    <!--      <div>
       <label for="id">
         Layer id
         <span @click="random" class="dice">🎲</span>
       </label>
       <input type="number" name="id" :value="$store.state.id" @change="updateId" />
-    </div> -->
+    </div>-->
     <div>
       <label for="width">Width</label>
       <input type="number" name="width" v-model.lazy="$store.state.width" />
@@ -81,8 +81,17 @@
       <svg @click="download" class="saveIcon" viewBox="0 0 24 24" alt="Download Background">
         <path d="M8 6h-5v15h18v-15h-5v-3h8v21h-24v-21h8v3zm5 6h4l-5 6-5-6h4v-12h2v12z" />
       </svg>
-      <svg @click="random" class="randomIcon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-          <path d="M10.848 15.932c-.399.781-.732 1.599-1.003 2.447-1.14-2.552-3.109-4.676-5.912-6.267l-1.463 2.656-2.47-5.881 6.33-1.126-1.433 2.601c2.606 1.472 4.593 3.349 5.951 5.57zm9.219-3.819l1.463 2.655 2.47-5.881-6.33-1.126 1.433 2.601c-5.339 3.017-8.103 7.72-8.103 13.638h2c0-5.144 2.405-9.241 7.067-11.887zm-8.025-12.113l-4.042 5h3v7.762c.352.409.684.831.991 1.269.312-.443.65-.87 1.009-1.286v-7.745h3l-3.958-5z"/>
+      <svg
+        @click="random"
+        class="randomIcon"
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M10.848 15.932c-.399.781-.732 1.599-1.003 2.447-1.14-2.552-3.109-4.676-5.912-6.267l-1.463 2.656-2.47-5.881 6.33-1.126-1.433 2.601c2.606 1.472 4.593 3.349 5.951 5.57zm9.219-3.819l1.463 2.655 2.47-5.881-6.33-1.126 1.433 2.601c-5.339 3.017-8.103 7.72-8.103 13.638h2c0-5.144 2.405-9.241 7.067-11.887zm-8.025-12.113l-4.042 5h3v7.762c.352.409.684.831.991 1.269.312-.443.65-.87 1.009-1.286v-7.745h3l-3.958-5z"
+        />
       </svg>
       <router-link to="/">
         <svg
@@ -112,7 +121,6 @@ export default {
   name: "settings",
   data: function() {
     return {
-      dataUrl: "",
       openColor: false,
       tooltipSize: "Size",
       tooltipNum: null,
@@ -128,9 +136,6 @@ export default {
     toggleClick: function(e) {
       e.stopPropagation();
       this.openColor = !this.openColor;
-    },
-    inputSize: function(e) {
-      console.log(e.target.value);
     },
     closeColor: function(e) {
       if (this.openColor) {
@@ -157,19 +162,19 @@ export default {
       this.$store.state.background = color.hex;
     },
     random: function(e) {
-      const id = this.data[parseInt(Math.random() * this.data.length)].layerId;
-      this.$router.push("/" + id);
+      const id = this.$store.dispatch("setRandomId");
+      // this.$router.push("/" + id);
       e.preventDefault();
     }
   },
   computed: {
     ...mapGetters(["data", "siblingsFiltered"]),
-    ...mapState(["loaded", "size", "hover"]),
-    item: function() {
-      return this.siblingsFiltered.find(d => d.layerId === this.hover);
+    ...mapState(["loaded", "size", "idSelected"]),
+    itemSelected: function() {
+      return this.siblingsFiltered.find(d => d.layerId === this.idSelected);
     },
     layerUrl: function() {
-      return makeUrl(this.item.id);
+      return makeUrl(this.itemSelected.id);
     },
     numScale: function() {
       return scalePow()
@@ -187,10 +192,9 @@ async function canvas2png(canvas) {
 </script>
 
 <style scoped lang="stylus">
-
 a {
-  color:#000;
-  text-decoration:none;
+  color: #000;
+  text-decoration: none;
 }
 
 .container {
@@ -205,11 +209,11 @@ a {
   user-select: none;
   // backdrop-filter: blur(10px);
   transition: transform 0.6s;
-  box-shadow: 0px 0px 15px 2px rgba(0,0,0,0.3);
+  box-shadow: 0px 0px 15px 2px rgba(0, 0, 0, 0.3);
   border-radius: 5px;
   will-change: transform;
   transform: translateY(-5px);
-  
+
   &.closed {
     transform: translateY(calc(-100% + 55px));
   }
@@ -218,16 +222,15 @@ a {
     padding-bottom: 1.2em;
     clear: both;
   }
-
 }
 
 .layerInfo {
   display: flex;
   flex-flow: collumn;
-  
+
   .left {
-    width:128px;
-    height:128px;
+    width: 128px;
+    height: 128px;
     margin-right: 10px;
   }
 }
@@ -292,26 +295,24 @@ input {
   }
 }
 
-
 .menu {
   position: relative;
   margin: -20px;
   margin-top: 0px;
-  background:#FFF;
+  background: #FFF;
   padding: 20px;
   border-radius: 5px;
 }
 
 .mobileHint {
-  display:none;
-}
-  
-@media only screen and (max-width: 600px) {
-  .mobileHint {
-    display:block;
-  }
+  display: none;
 }
 
+@media only screen and (max-width: 600px) {
+  .mobileHint {
+    display: block;
+  }
+}
 
 .hamburger {
   width: 36px;
@@ -395,9 +396,6 @@ input {
     fill: #484848;
   }
 }
-
-
-
 
 input[type='color']::-webkit-color-swatch-wrapper {
   padding: 0;
@@ -527,7 +525,4 @@ input[type='range']:focus::-ms-track {
 input[type='range']:focus::-moz-range-track {
   background: #ccc;
 }
-
-
-
 </style>

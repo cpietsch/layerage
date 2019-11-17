@@ -16,22 +16,8 @@ let points = [];
 export default {
   name: "lanvas",
   methods: {
-    calculate: function(e){
-      if (worker) { worker.terminate(); }
-      worker = new Worker();
-
-      worker.onmessage = e => {
-        if (e.data.type === "points") {
-          points = e.data.points;
-          this.draw();
-        }
-        if (e.data.type === "find") {
-          const index = e.data.index;
-          const id = this.siblingsFiltered[index].layerId;
-          this.$store.state.hover = id;
-        }
-      };
-
+    startLayoutWorker: function(e) {
+      this.makeWorker();
       const data = this.siblingsFiltered.map(d => [d.x, d.y]);
       const { width, height } = this;
       worker.postMessage({ type: "calculate", data, width, height });
@@ -48,8 +34,26 @@ export default {
         worker.postMessage({ type: "find", x, y });
       }
     },
+    makeWorker: function() {
+      if (worker) {
+        worker.terminate();
+      }
+      worker = new Worker();
+      worker.onmessage = this.workerMessage;
+    },
+    workerMessage: function(e) {
+      if (e.data.type === "points") {
+        points = e.data.points;
+        this.draw();
+      }
+      if (e.data.type === "find") {
+        const index = e.data.index;
+        const id = this.siblingsFiltered[index].layerId;
+        this.$store.state.idSelected = id;
+      }
+    },
     draw: function() {
-      console.log("draw")
+      // console.log("draw");
       this.$refs.canvas.width = this.width;
       this.$refs.canvas.height = this.height;
       this.context.fillStyle = this.background;
@@ -86,7 +90,7 @@ export default {
   watch: {
     siblingsFiltered: {
       handler: function(items) {
-        this.calculate()
+        this.startLayoutWorker();
         this.$store.dispatch("loadImages");
       },
       immediate: true
@@ -101,14 +105,19 @@ export default {
       this.draw();
     },
     width: function() {
-      this.calculate()
+      this.startLayoutWorker();
     },
     height: function() {
-      this.calculate()
+      this.startLayoutWorker();
     }
   },
   mounted: function() {
     global.canvas = this.$refs.canvas;
+  },
+  beforeDestroy: function() {
+    if (worker) {
+      worker.terminate();
+    }
   }
 };
 </script>

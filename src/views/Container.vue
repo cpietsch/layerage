@@ -3,16 +3,7 @@
     <div v-if="loaded.data && item">
       <loading />
       <settings />
-      <lanvas :key="id" />
-      <!-- <div class="credits">
-        <a
-          v-for="s in siblingsFiltered"
-          :href="'https://www.reddit.com/r/Layer/comments/' + s.url"
-          target="_blank"
-          :key="s.id"
-          >{{ s.layerId }},</a
-        >
-      </div>-->
+      <lanvas />
     </div>
   </div>
 </template>
@@ -40,8 +31,8 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["data", "item", "siblingsFiltered"]),
-    ...mapState(["loaded", "size", "id"])
+    ...mapGetters(["item"]),
+    ...mapState(["loaded"])
   },
   mounted: function() {
     // this.$store.dispatch("loadImages")

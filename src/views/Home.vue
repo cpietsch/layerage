@@ -4,23 +4,26 @@
       <form @submit="submit">
         <div class="searchBox">
           <multiselect
-            :value="value"
-            :options="options"
+            :value="item"
+            :options="data"
             placeholder="Layer name or id"
             label="name"
-            track-by="lid"
+            track-by="id"
             :limit="100"
             :custom-label="customLabel"
             :options-limit="40"
             :showLabels="false"
             @input="inputSearch"
-            @open="openSearch"
           >
             <template slot="option" slot-scope="props">
               <div class="option__desc">
-                <img class="option__image" :src="makeUrl(props.option.id)" :alt="props.option.name" />
-                <span class="option__title">{{ props.option.name }}</span>
-                <span class="option__id">{{ props.option.lid }}</span>
+                <img
+                  class="option__image"
+                  :src="makeUrl(props.option.id)"
+                  :alt="props.option.title"
+                />
+                <span class="option__title">{{ props.option.title }}</span>
+                <span class="option__id">{{ props.option.layerId }}</span>
               </div>
             </template>
           </multiselect>
@@ -35,7 +38,7 @@
       <span>Find a layer.</span>
       <span>Build a background.</span>
     </h1>
-    <div class="qube-perspective spin" v-if="style">
+    <div class="qube-perspective spin" v-if="item">
       <ul class="qube no-shading layercube">
         <li class="front" :style="style"></li>
         <li class="left" :style="style"></li>
@@ -64,11 +67,6 @@ export default {
   components: {
     Multiselect
   },
-  // data: function() {
-  //   return {
-  //     value: null
-  //   };
-  // },
   methods: {
     makeUrl,
     submit: function(e) {
@@ -79,66 +77,30 @@ export default {
       }
     },
     random: function(e) {
-      console.log("random");
-      const id = this.$store.dispatch("setRandomId");
+      this.$store.dispatch("setRandomId");
       e.preventDefault();
     },
     inputSearch(value, id) {
-      // console.log(value, id)
-      if (value && value.lid) {
-        this.$store.dispatch("setId", value.lid);
+      // console.log("inputSearch", value);
+      if (value && value.id) {
+        this.$store.dispatch("setId", value.layerId);
       }
     },
-    openSearch(id) {
-      console.log(id);
-    },
-    customLabel({ name, lid }) {
-      return `${name} – ${lid}`;
+    customLabel({ title, layerId }) {
+      return `${title} – ${layerId}`;
     }
   },
   computed: {
     ...mapGetters(["data", "item"]),
     ...mapState(["id"]),
-    options: function() {
-      return this.data.map(d => ({
-        name: d.url.split("/")[1].replace(/_/g, " "),
-        lid: d.layerId,
-        id: d.id
-      }));
-    },
-    value: function() {
-      if (this.item) {
-        const d = this.item;
-        return {
-          name: d.url.split("/")[1].replace(/_/g, " "),
-          lid: d.layerId,
-          id: d.id
-        };
-      } else {
-        return null;
-      }
-    },
     loaded: function() {
       return this.data.length > 0;
     },
-    // item: function() {
-    //   if (this.id) {
-    //     return this.data.find(d => d.layerId === this.id);
-    //   } else {
-    //     return false;
-    //   }
-    // },
     style: function() {
-      if (this.item) {
-        return `background-image: url(${makeUrlBig(this.item.id)});`;
-      } else {
-        return "";
-      }
+      return `background-image: url(${makeUrlBig(this.item.id)});`;
     }
   },
-  mounted: function() {
-    // if (!this.id) this.$store.dispatch("setRandomId");
-  }
+  mounted: function() {}
 };
 </script>
 

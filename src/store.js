@@ -2,7 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import { csv } from "d3-fetch";
 import router from "./router";
-import { makeUrl, loadImage, global } from "./utils.js";
+import { loadImage } from "./utils.js";
 
 let data = [];
 let imageMap = {};
@@ -16,14 +16,12 @@ export default new Vuex.Store({
       images: false,
       number: 0
     },
-    hover: null,
+    idSelected: null,
     id: null,
     size: 200,
     images: [],
     width: Math.floor(window.screen.width * window.devicePixelRatio),
     height: Math.floor(window.screen.height * window.devicePixelRatio),
-    // width: 800,
-    // height: 600,
     background: "#000000",
     scale: 0.3,
     dataUrl: null
@@ -32,10 +30,12 @@ export default new Vuex.Store({
   actions: {
     init: async function({ dispatch, commit, getters, state }) {
       console.log("init");
+      state.loaded.data = false;
       data = await csv("dataBig.csv", d => ({
         ...d,
         x: +d.x,
-        y: +d.y
+        y: +d.y,
+        title: d.url.split("/")[1].replace(/_/g, " ")
       }));
       state.loaded.data = true;
       if (!state.id) dispatch("setRandomId");
@@ -47,6 +47,7 @@ export default new Vuex.Store({
 
       const siblings = getters.siblingsFiltered;
       state.loaded.images = false;
+      state.loaded.number = 0;
       const batchSize = 20;
       const size = getters.siblingsFiltered.length;
       for (let i = 0; i < size; i += batchSize) {
@@ -58,20 +59,14 @@ export default new Vuex.Store({
             .filter((d, ii) => ii >= i && ii < end)
             .map(d => loadImage(d.id))
         );
-        // console.log(loaded)
-        // loaded.forEach(l => l ? images.push(l) : '')
-        loaded
-          // .filter(l => l)
-          .forEach(l => {
-            state.images.push(l.id);
-            imageMap[l.id] = l.image;
-          });
-        // console.log(loaded);
+        loaded.forEach(l => {
+          // add them to the state
+          state.images.push(l.id);
+          imageMap[l.id] = l.image;
+        });
         state.loaded.number = i;
       }
-      // console.log(images)
       state.loaded.images = true;
-      // return images;
     },
     setRandomId: function({ dispatch, getters }) {
       const id =
@@ -81,22 +76,22 @@ export default new Vuex.Store({
     },
     setId: function({ dispatch, commit, getters, state }, id) {
       console.log("id", id);
-      // const item = getters.data.find(d => d.layerId === id)
-      //if(item) state.id = id
-      //else router.push("/")
+      // const item = getters.data.find(d => d.layerId === id);
+      // if (item) state.id = id;
+      // else router.push("/");
       state.id = id;
     }
   },
   getters: {
+    isMobile: function(state) {
+      return state.width / window.devicePixelRatio < 700;
+    },
     data: function(state) {
       return state.loaded.data ? data : [];
     },
     images: function(state) {
       return state.images.map(id => imageMap[id]);
     },
-    // images: function(state) {
-    //   return siblingsFiltered.map((d,i) => images[i])
-    // },
     item: function(state, getters) {
       return getters.data.find(d => d.layerId === state.id);
     },
@@ -105,7 +100,7 @@ export default new Vuex.Store({
     },
     siblings: function(state, getters) {
       const { x, y } = getters.item;
-      // todo: use a quadtree for that
+      // todo: use a quadtree for that or something more efficient
       return getters.data
         .map(d => {
           const distance = Math.hypot(d.x - x, d.y - y);

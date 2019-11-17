@@ -1,9 +1,5 @@
 <template>
   <div id="app" :style="{ background }">
-    <!-- <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>-->
     <router-view />
   </div>
 </template>
@@ -11,18 +7,17 @@
 <style>
 * {
   box-sizing: border-box;
-  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 html,
 body {
   overflow-x: hidden;
-  height: 100%;
 }
 body {
   margin: 0;
 }
 #app {
-  font-family: 'Hind', sans-serif;
+  font-family: "Hind", sans-serif;
   color: #2c3e50;
   display: flex;
 }
@@ -31,27 +26,29 @@ body {
 
 <script>
 import Shake from "shake.js";
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 export default {
   name: "App",
   computed: {
-    ...mapState(["background"])
+    ...mapState(["background"]),
+    ...mapGetters(["isMobile"])
   },
   mounted: function() {
     this.$store.dispatch("init");
 
-    var myShakeEvent = new Shake({
-      threshold: 10
-    });
-    myShakeEvent.start();
-    window.addEventListener(
-      "shake",
-      () => {
-        // alert("shake");
-        this.$store.dispatch("setRandomId");
-      },
-      false
-    );
+    if (this.isMobile) {
+      var myShakeEvent = new Shake({
+        threshold: 10
+      });
+      myShakeEvent.start();
+      window.addEventListener(
+        "shake",
+        () => {
+          this.$store.dispatch("setRandomId");
+        },
+        false
+      );
+    }
   }
 };
 </script>
