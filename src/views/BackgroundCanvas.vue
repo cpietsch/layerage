@@ -14,7 +14,7 @@ const imageDim = 128;
 let points = [];
 
 export default {
-  name: "lanvas",
+  name: "background-canvas",
   methods: {
     startLayoutWorker: function(e) {
       this.makeWorker();

@@ -3,20 +3,20 @@
     <div v-if="loaded.data && item">
       <loading />
       <settings />
-      <lanvas />
+      <background-canvas />
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapState } from "vuex";
-import Lanvas from "./Lanvas.vue";
+import BackgroundCanvas from "./BackgroundCanvas.vue";
 import Settings from "./Settings.vue";
 import Loading from "./Loading.vue";
 export default {
   name: "container",
   components: {
-    Lanvas,
+    BackgroundCanvas,
     Settings,
     Loading
   },
