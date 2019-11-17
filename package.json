@@ -9,7 +9,7 @@
     "deploy": "yarn run build && gh-pages -d dist"
   },
   "dependencies": {
-    "core-js": "^2.6.5",
+    "core-js": "^2.6.10",
     "d3-array": "^2.3.3",
     "d3-delaunay": "^5.1.5",
     "d3-dsv": "^1.1.1",
