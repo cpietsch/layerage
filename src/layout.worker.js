@@ -7,6 +7,10 @@ const internalScale = 2;
 let delaunay = null;
 let state = null;
 
+// Lloyd’s Algorithm in a worker
+// https://www.jasondavies.com/lloyd/
+// https://observablehq.com/@mbostock/lloyds-algorithm
+
 function calculate(items, width, height) {
   state = "calculate";
   console.log("calculate");
