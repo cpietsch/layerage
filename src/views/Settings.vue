@@ -1,16 +1,20 @@
 <template>
-  <div class="container" @click="closeColor" :class="{closed}">
-    {{ isMobile}}
-    <div class="layerInfo" v-if="idSelected">
+  <div class="container" @click="closeColor" :class="{ closed }">
+    <div class="layerInfo" v-if="itemSelected">
       <div class="left">
-        <a target="blank" :href="'https://www.reddit.com/r/Layer/comments/' + itemSelected.url">
+        <a
+          target="blank"
+          :href="'https://www.reddit.com/r/Layer/comments/' + itemSelected.url"
+        >
           <img :src="layerUrl" />
         </a>
       </div>
       <div class="right">
         <div>{{ itemSelected.title }}</div>
         <div>{{ itemSelected.author }}</div>
-        <router-link :to="'/' + itemSelected.layerId">{{ itemSelected.layerId }}</router-link>
+        <router-link :to="'/' + itemSelected.layerId">{{
+          itemSelected.layerId
+        }}</router-link>
       </div>
     </div>
     <!--      <div>
@@ -31,13 +35,23 @@
     <div>
       <label for="background">Background</label>
       <!-- <input type="color" name="background" class="color" v-model="$store.state.background" /> -->
-      <div class="colorField" :style="{ background: $store.state.background}" @click="toggleClick" />
+      <div
+        class="colorField"
+        :style="{ background: $store.state.background }"
+        @click="toggleClick"
+      />
     </div>
     <div class="colorBox" v-if="openColor" @click="cancelClick">
-      <chrome :value="$store.state.background" @input="updateBackground" :disableFields="true" />
+      <chrome
+        :value="$store.state.background"
+        @input="updateBackground"
+        :disableFields="true"
+      />
     </div>
     <div>
-      <label for="size">{{ tooltipNum ? tooltipNum + ' Layers' : 'How many' }}</label>
+      <label for="size">{{
+        tooltipNum ? tooltipNum + " Layers" : "How many"
+      }}</label>
       <input
         type="range"
         min="1"
@@ -45,7 +59,10 @@
         step="0.1"
         name="size"
         @input="tooltipNum = numScale($event.target.value)"
-        @change="tooltipNum = null, $store.state.size = numScale($event.target.value)"
+        @change="
+          (tooltipNum = null),
+            ($store.state.size = numScale($event.target.value))
+        "
         :value="numScale.invert(tooltipNum ? tooltipNum : $store.state.size)"
       />
     </div>
@@ -74,13 +91,24 @@
       </div>
     </div>
     <div class="menu">
-      <div class="hamburger" :class="{arrow: !closed}" @click="closed = !closed">
+      <div
+        class="hamburger"
+        :class="{ arrow: !closed }"
+        @click="closed = !closed"
+      >
         <div class="a"></div>
         <div class="b"></div>
         <div class="c"></div>
       </div>
-      <svg @click="download" class="saveIcon" viewBox="0 0 24 24" alt="Download Background">
-        <path d="M8 6h-5v15h18v-15h-5v-3h8v21h-24v-21h8v3zm5 6h4l-5 6-5-6h4v-12h2v12z" />
+      <svg
+        @click="download"
+        class="saveIcon"
+        viewBox="0 0 24 24"
+        alt="Download Background"
+      >
+        <path
+          d="M8 6h-5v15h18v-15h-5v-3h8v21h-24v-21h8v3zm5 6h4l-5 6-5-6h4v-12h2v12z"
+        />
       </svg>
       <svg
         @click="random"
