@@ -2,28 +2,20 @@
   <div class="container" @click="closeColor" :class="{ closed }">
     <div class="layerInfo" v-if="itemSelected">
       <div class="left">
-        <a
-          target="blank"
-          :href="'https://www.reddit.com/r/Layer/comments/' + itemSelected.url"
-        >
+        <a target="blank" :href="'https://www.reddit.com/r/Layer/comments/' + itemSelected.url">
           <img :src="layerUrl" />
         </a>
       </div>
       <div class="right">
         <div>{{ itemSelected.title }}</div>
         <div>{{ itemSelected.author }}</div>
-        <router-link :to="'/' + itemSelected.layerId">{{
+        <router-link :to="'/' + itemSelected.layerId">
+          {{
           itemSelected.layerId
-        }}</router-link>
+          }}
+        </router-link>
       </div>
     </div>
-    <!--      <div>
-      <label for="id">
-        Layer id
-        <span @click="random" class="dice">🎲</span>
-      </label>
-      <input type="number" name="id" :value="$store.state.id" @change="updateId" />
-    </div>-->
     <div>
       <label for="width">Width</label>
       <input type="number" name="width" v-model.lazy="$store.state.width" />
@@ -42,16 +34,14 @@
       />
     </div>
     <div class="colorBox" v-if="openColor" @click="cancelClick">
-      <chrome
-        :value="$store.state.background"
-        @input="updateBackground"
-        :disableFields="true"
-      />
+      <chrome :value="$store.state.background" @input="updateBackground" :disableFields="true" />
     </div>
     <div>
-      <label for="size">{{
+      <label for="size">
+        {{
         tooltipNum ? tooltipNum + " Layers" : "How many"
-      }}</label>
+        }}
+      </label>
       <input
         type="range"
         min="1"
@@ -80,37 +70,24 @@
       />
     </div>
     <div class="credits">
-      <div class="mobileHint">Shake ya phone for a random layer</div>
+      <div class="mobileHint">Shake phone for a random layer</div>
       <div>
         Images by redditors of
         <a href="https://reddit.com/r/layer" target="_blank">/r/layer</a>
       </div>
       <div>
         Tooling by
-        <a href="https://twitter.com/chrispiecom" target="_blank">chrispie</a>
+        <a href="https://twitter.com/chrispiecom" target="_blank">chrispie</a> - <router-link to="/about">About</router-link>
       </div>
-      <div><router-link to="/about"> About</router-link> this project</div>
-      <div></div>
     </div>
     <div class="menu">
-      <div
-        class="hamburger"
-        :class="{ arrow: !closed }"
-        @click="closed = !closed"
-      >
+      <div class="hamburger" :class="{ arrow: !closed }" @click="closed = !closed">
         <div class="a"></div>
         <div class="b"></div>
         <div class="c"></div>
       </div>
-      <svg
-        @click="download"
-        class="saveIcon"
-        viewBox="0 0 24 24"
-        alt="Download Background"
-      >
-        <path
-          d="M8 6h-5v15h18v-15h-5v-3h8v21h-24v-21h8v3zm5 6h4l-5 6-5-6h4v-12h2v12z"
-        />
+      <svg @click="download" class="saveIcon" viewBox="0 0 24 24" alt="Download Background">
+        <path d="M8 6h-5v15h18v-15h-5v-3h8v21h-24v-21h8v3zm5 6h4l-5 6-5-6h4v-12h2v12z" />
       </svg>
       <svg
         @click="random"

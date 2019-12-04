@@ -54,6 +54,8 @@
       target="blank"
       :href="'https://www.reddit.com/r/Layer/comments/' + item.url"
     >by {{ item.url }}</a>
+  <router-link to="/about" class="about">About this project</router-link>
+
   </div>
 </template>
 
@@ -177,6 +179,14 @@ h1 {
   position: absolute;
   bottom: 0;
   right: 0;
+}
+
+.about {
+  font-size: 10px;
+  padding: 10px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }
 
 .button {
