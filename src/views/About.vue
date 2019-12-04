@@ -15,18 +15,20 @@
         other.
       </p>
 
-      <h2>What is r/layer</h2>
-      <p>
-        <a target="_blank" href="https://www.reddit.com/r/Layer/">r/Layer</a> was a community canvas for creative exploration open to everyone
-        to create and contribute similar to r/place. Built by Reddit in
-        partnership with Adobe.
-      </p>
-
       <h2>Why</h2>
       <p>
         I was just so intrigued by the creativity and granularity of the layers that I had to experiment on it.
         Initially I built a tool to explore all those layers by
-        <a href="https://vikusviewer.fh-potsdam.de/" target="_blank">zooming in and out</a> but then switched to fiddling on this tool which could be more accessible for everyone.
+        <a
+          href="https://vikusviewer.fh-potsdam.de/"
+          target="_blank"
+        >zooming in and out</a> but then switched to fiddling on this tool which could be more accessible for everyone.
+      </p>
+
+      <h2>What is r/layer</h2>
+      <p>
+        <a target="_blank" href="https://www.reddit.com/r/Layer/">r/Layer</a> was a community canvas for creative exploration open to everyone
+        to create and contribute similar to r/place, built by Reddit in partnership with Adobe.
       </p>
 
       <h2>What can you do here</h2>
@@ -95,7 +97,10 @@
       <h2>Learnings</h2>
       <p>
         Running tSNE on that many vectors (around 50000x1000) can make your system swet. I was running into memory issues so I went with the WebGL version of
-        <a href="https://github.com/tensorflow/tfjs-tsne" target="_blank">TFJS-TSNE</a>.
+        <a
+          href="https://github.com/tensorflow/tfjs-tsne"
+          target="_blank"
+        >TFJS-TSNE</a>.
         Also the UMAP implementation of the
         <a
           href="https://github.com/YaleDHLab/pix-plot/blob/master/utils/process_images.py"
