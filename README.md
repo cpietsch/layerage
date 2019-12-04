@@ -35,15 +35,10 @@ Running tSNE on that many vectors (around 50000x1000) can make your system swet.
 
 ## What else
 
-Initially I did some timelapses while r/layer was running
-
-<iframe src="https://www.youtube.com/embed/MtW1U5d6zHI" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" width="560" height="315" frameborder="0"></iframe>
-
-Shout out to u/youngluck for the support
-
-You can buy me a virtual coffee by beeing a [GitHub Sponsor](https://github.com/sponsors/cpietsch)
-
-2019 Christopher Pietsch [@chrispiecom](https://twitter.com/chrispiecom)
+Initially I did some timelapses while r/layer was running 
+Shout out to u/youngluck for the support 
+You can buy me a virtual coffee by beeing a [GitHub Sponsor](https://github.com/sponsors/cpietsch) 
+2019 Christopher Pietsch [@chrispiecom](https://twitter.com/chrispiecom) 
 
 ## Project setup
 ```
