@@ -21,4 +21,4 @@ export function loadImage(id) {
 
 export const global = {};
 
-export const dataUrl = "https://vikusviewer.fh-potsdam.de/layers/dataBig.csv";
+export const dataUrl = "dataBig.csv";
