@@ -68,11 +68,13 @@ export default new Vuex.Store({
       }
       state.loaded.images = true;
     },
-    setRandomId: function({ dispatch, getters }) {
+    setRandomId: function({ dispatch, getters }, pushRoute) {
       const id =
         getters.data[parseInt(Math.random() * getters.data.length)].layerId;
       dispatch("setId", id);
-      return id;
+      if (pushRoute) {
+        router.push("/" + id);
+      }
     },
     setId: function({ dispatch, commit, getters, state }, id) {
       console.log("id", id);

@@ -77,7 +77,8 @@
       </div>
       <div>
         Tooling by
-        <a href="https://twitter.com/chrispiecom" target="_blank">chrispie</a> - <router-link to="/about">About</router-link>
+        <a href="https://twitter.com/chrispiecom" target="_blank">chrispie</a> -
+        <router-link to="/about">About</router-link>
       </div>
     </div>
     <div class="menu">
@@ -170,7 +171,7 @@ export default {
       this.$store.state.background = color.hex;
     },
     random: function(e) {
-      const id = this.$store.dispatch("setRandomId");
+      const id = this.$store.dispatch("setRandomId", true);
       // this.$router.push("/" + id);
       e.preventDefault();
     }
