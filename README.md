@@ -20,10 +20,10 @@ Let’s say you have all the layers which are public and you run some neural net
 
 ## Moar details
 
-*   scrape all the metadata and layers run a neural net (inception / mobilenet) on each layer to get an ["imprint"](https://observablehq.com/@cpietsch/imagenet-activation-logit) of it
-*   run dimensionality reduction on all those imprints ( [tSNE](https://observablehq.com/@cpietsch/t-sne-for-imagenet-activations) / [UMAP](https://observablehq.com/@cpietsch/t-sne-for-imagenet-activations/2)) to distribute the layers by similarity in 2D
-*   prototype on [observable notebook](https://observablehq.com/d/6dcb7448c060af1c)
-*   build a frontend tool with vuejs and fiddle around a lot
+- scrape all the metadata and layers run a neural net (inception / mobilenet) on each layer to get an ["imprint"](https://observablehq.com/@cpietsch/imagenet-activation-logit) of it
+- run dimensionality reduction on all those imprints ( [tSNE](https://observablehq.com/@cpietsch/t-sne-for-imagenet-activations) / [UMAP](https://observablehq.com/@cpietsch/t-sne-for-imagenet-activations/2)) to distribute the layers by similarity in 2D
+- prototype on [observable notebook](https://observablehq.com/@cpietsch/collage-of-of-r-layer)
+- build a frontend tool with vuejs and fiddle around a lot
 
 ## Wouldn’t it be cool to…
 
@@ -31,39 +31,45 @@ Sure thing! The code is on [GitHub](https://github.com/cpietsch/layerage) and is
 
 ## Learnings
 
-Running tSNE on that many vectors (around 50000x1000) can make your system swet. I was running into memory issues so I went with the WebGL version of [TFJS-TSNE](https://github.com/tensorflow/tfjs-tsne). Also the UMAP implementation of the [YaleDHLab](https://github.com/YaleDHLab/pix-plot/blob/master/utils/process_images.py) helped me on the UMAP part. Still there could be a lot finetuning to be done. Lastly, self motivation is hard. Doing the initial experiments on observable was fun and quick, but developing this app took quite some time.
+Running tSNE on that many vectors (around 50000x1000) can make your system swet. I was running into memory issues so I went with the WebGL version of [TFJS-TSNE](https://github.com/tensorflow/tfjs-tsne). Also the UMAP implementation of the [YaleDHLab](https://github.com/YaleDHLab/pix-plot/blob/master/utils/process_images.py) helped. Still there could be a lot finetuning to be done. Lastly, self motivation is hard. Doing the initial experiments on observable was fun and quick, but developing this app took quite some time.
 
 ## What else
 
-Initially I did some timelapses while r/layer was running 
-Shout out to u/youngluck for the support 
-You can buy me a virtual coffee by beeing a [GitHub Sponsor](https://github.com/sponsors/cpietsch) 
-2019 Christopher Pietsch [@chrispiecom](https://twitter.com/chrispiecom) 
+Initially I did some timelapses while r/layer was running
+Shout out to u/youngluck for the support
+You can buy me a virtual coffee by beeing a [GitHub Sponsor](https://github.com/sponsors/cpietsch)
+2019 Christopher Pietsch [@chrispiecom](https://twitter.com/chrispiecom)
 
 ## Project setup
+
 ```
 yarn install
 ```
 
 ### Compiles and hot-reloads for development
+
 ```
 yarn run serve
 ```
 
 ### Compiles and minifies for production
+
 ```
 yarn run build
 ```
 
 ### Run your tests
+
 ```
 yarn run test
 ```
 
 ### Lints and fixes files
+
 ```
 yarn run lint
 ```
 
 ### Customize configuration
+
 See [Configuration Reference](https://cli.vuejs.org/config/).

@@ -25,7 +25,8 @@
       <h2>Why</h2>
       <p>
         I was just so intrigued by the creativity and granularity of the layers that I had to experiment on it.
-        Initially I built a tool to explore all those layers by <a href="https://vikusviewer.fh-potsdam.de/" target="_blank">zooming in and out</a> but then switched to fiddling on this tool which could be more accessible for everyone.
+        Initially I built a tool to explore all those layers by
+        <a href="https://vikusviewer.fh-potsdam.de/" target="_blank">zooming in and out</a> but then switched to fiddling on this tool which could be more accessible for everyone.
       </p>
 
       <h2>What can you do here</h2>
@@ -75,7 +76,7 @@
           prototype on
           <a
             target="_blank"
-            href="https://observablehq.com/d/6dcb7448c060af1c"
+            href="https://observablehq.com/@cpietsch/collage-of-of-r-layer"
           >observable notebook</a>
         </li>
         <li>build a frontend tool with vuejs and fiddle around a lot</li>
@@ -84,17 +85,26 @@
       <h2>Wouldn’t it be cool to…</h2>
       <p>
         Sure thing! The code is on
-        <a target="_blank" href="https://github.com/cpietsch/layerage">GitHub</a> and is open source, so you can
+        <a
+          target="_blank"
+          href="https://github.com/cpietsch/layerage"
+        >GitHub</a> and is open source, so you can
         contribute by adding a feature or suggest something in a ticket.
       </p>
 
       <h2>Learnings</h2>
       <p>
-        Running tSNE on that many vectors (around 50000x1000) can make your system swet. I was running into memory issues so I went with the WebGL version of <a href="https://github.com/tensorflow/tfjs-tsne" target="_blank">TFJS-TSNE</a>.
-        Also the UMAP implementation of the <a href="https://github.com/YaleDHLab/pix-plot/blob/master/utils/process_images.py" target="_blank">YaleDHLab</a> was helpful. Still there could be a lot finetuning to be done. Lastly, self motivation is hard. Doing the initial experiments on <a
-            target="_blank"
-            href="https://observablehq.com/d/6dcb7448c060af1c"
-          >observable</a> was fun and quick, but developing this app took quite some time.
+        Running tSNE on that many vectors (around 50000x1000) can make your system swet. I was running into memory issues so I went with the WebGL version of
+        <a href="https://github.com/tensorflow/tfjs-tsne" target="_blank">TFJS-TSNE</a>.
+        Also the UMAP implementation of the
+        <a
+          href="https://github.com/YaleDHLab/pix-plot/blob/master/utils/process_images.py"
+          target="_blank"
+        >YaleDHLab</a> was helpful. Still there could be a lot finetuning to be done. Lastly, self motivation is hard. Doing the initial experiments on
+        <a
+          target="_blank"
+          href="https://observablehq.com/@cpietsch/collage-of-of-r-layer"
+        >observable</a> was fun and quick, but developing this app took quite some time.
       </p>
 
       <h2>What else</h2>
@@ -110,11 +120,17 @@
       <p>Shout out to u/youngluck for the support and the video cutting</p>
       <p>
         You can support me by beeing a
-        <a target="_blank" href="https://github.com/sponsors/cpietsch">GitHub Sponsor</a>
+        <a
+          target="_blank"
+          href="https://github.com/sponsors/cpietsch"
+        >GitHub Sponsor</a>
       </p>
       <p>
         2019 Christopher Pietsch
-        <a target="_blank" href="https://twitter.com/chrispiecom">@chrispiecom</a>
+        <a
+          target="_blank"
+          href="https://twitter.com/chrispiecom"
+        >@chrispiecom</a>
       </p>
     </div>
   </div>
