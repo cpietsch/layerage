@@ -1,4 +1,4 @@
-## So what is this thing
+## What is Layerage
 
 Layerage lets you create collages of r/Layer which are similar to each other.
 
@@ -8,7 +8,7 @@ Layerage lets you create collages of r/Layer which are similar to each other.
 
 ## Why
 
-I was just so intrigued by the creativity and granularity of the layers that I had to experiment on it on my free time. Initially I built a tool to explore all those layers by zooming in and out (video) but then switched to fiddling on this tool which could be more accessible for everyone.
+I was just so intrigued by the creativity and granularity of the layers that I had to experiment on it on my free time. Initially I built a tool to explore all those layers by [zooming in and out](https://vikusviewer.fh-potsdam.de/) but then switched to fiddling on layerage which could be more accessible for everyone.
 
 ## What can you do here
 
@@ -21,7 +21,7 @@ Let’s say you have all the layers which are public and you run some neural net
 ## Moar details
 
 *   scrape all the metadata and layers run a neural net (inception / mobilenet) on each layer to get an ["imprint"](https://observablehq.com/@cpietsch/imagenet-activation-logit) of it
-*   run dimensionality reduction on all those imprints ([tSNE](https://observablehq.com/@cpietsch/t-sne-for-imagenet-activations) / [UMAP](https://observablehq.com/@cpietsch/t-sne-for-imagenet-activations/2)) to distribute the layers by similarity in 2D
+*   run dimensionality reduction on all those imprints ( [tSNE](https://observablehq.com/@cpietsch/t-sne-for-imagenet-activations) / [UMAP](https://observablehq.com/@cpietsch/t-sne-for-imagenet-activations/2)) to distribute the layers by similarity in 2D
 *   prototype on [observable notebook](https://observablehq.com/d/6dcb7448c060af1c)
 *   build a frontend tool with vuejs and fiddle around a lot
 
@@ -29,15 +29,21 @@ Let’s say you have all the layers which are public and you run some neural net
 
 Sure thing! The code is on [GitHub](https://github.com/cpietsch/layerage) and is open source, so you can contribute by adding a feature or suggest something in a ticket.
 
+## Learnings
+
+Running tSNE on that many vectors (around 50000x1000) can make your system swet. I was running into memory issues so I went with the WebGL version of [TFJS-TSNE](https://github.com/tensorflow/tfjs-tsne). Also the UMAP implementation of the [YaleDHLab](https://github.com/YaleDHLab/pix-plot/blob/master/utils/process_images.py) helped me on the UMAP part. Still there could be a lot finetuning to be done. Lastly, self motivation is hard. Doing the initial experiments on observable was fun and quick, but developing this app took quite some time.
+
 ## What else
 
-Initially I did a timelapse while r/layer was running
+Initially I did some timelapses while r/layer was running
 
 <iframe src="https://www.youtube.com/embed/MtW1U5d6zHI" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" width="560" height="315" frameborder="0"></iframe>
 
 Shout out to u/youngluck for the support
 
 You can buy me a virtual coffee by beeing a [GitHub Sponsor](https://github.com/sponsors/cpietsch)
+
+2019 Christopher Pietsch [@chrispiecom](https://twitter.com/chrispiecom)
 
 ## Project setup
 ```
