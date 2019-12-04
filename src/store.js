@@ -2,7 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import { csv } from "d3-fetch";
 import router from "./router";
-import { loadImage } from "./utils.js";
+import { loadImage, dataUrl } from "./utils.js";
 
 let data = [];
 let imageMap = {};
@@ -31,7 +31,7 @@ export default new Vuex.Store({
     init: async function({ dispatch, commit, getters, state }) {
       console.log("init");
       state.loaded.data = false;
-      data = await csv("dataBig.csv", d => ({
+      data = await csv(dataUrl, d => ({
         ...d,
         x: +d.x,
         y: +d.y,
