@@ -22,8 +22,8 @@ export default new Vuex.Store({
     images: [],
     width: Math.floor(window.screen.width * window.devicePixelRatio),
     height: Math.floor(window.screen.height * window.devicePixelRatio),
-    background: "#000000",
-    scale: 0.3,
+    background: "#FFFFFF",
+    scale: 0.9,
     dataUrl: null
   },
   mutations: {},

@@ -89,6 +89,8 @@
         Tooling by
         <a href="https://twitter.com/chrispiecom" target="_blank">chrispie</a>
       </div>
+      <div><router-link to="/about"> About</router-link> this project</div>
+      <div></div>
     </div>
     <div class="menu">
       <div
