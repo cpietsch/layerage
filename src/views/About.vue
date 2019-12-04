@@ -24,8 +24,8 @@
 
       <h2>Why</h2>
       <p>
-        I was just so intrigued by the creativity and granularity of the layers that I had to experiment on it on my free time.
-        Initially I built a tool to explore all those layers by <a href="https://vikusviewer.fh-potsdam.de/" target="_blank">zooming in and out</a> but then switched to fiddling on layerage which could be more accessible for everyone.
+        I was just so intrigued by the creativity and granularity of the layers that I had to experiment on it.
+        Initially I built a tool to explore all those layers by <a href="https://vikusviewer.fh-potsdam.de/" target="_blank">zooming in and out</a> but then switched to fiddling on this tool which could be more accessible for everyone.
       </p>
 
       <h2>What can you do here</h2>
@@ -91,7 +91,10 @@
       <h2>Learnings</h2>
       <p>
         Running tSNE on that many vectors (around 50000x1000) can make your system swet. I was running into memory issues so I went with the WebGL version of <a href="https://github.com/tensorflow/tfjs-tsne" target="_blank">TFJS-TSNE</a>.
-        Also the UMAP implementation of the <a href="https://github.com/YaleDHLab/pix-plot/blob/master/utils/process_images.py" target="_blank">YaleDHLab</a> helped me on the UMAP part. Still there could be a lot finetuning to be done. Lastly, self motivation is hard. Doing the initial experiments on observable was fun and quick, but developing this app took quite some time.
+        Also the UMAP implementation of the <a href="https://github.com/YaleDHLab/pix-plot/blob/master/utils/process_images.py" target="_blank">YaleDHLab</a> was helpful. Still there could be a lot finetuning to be done. Lastly, self motivation is hard. Doing the initial experiments on <a
+            target="_blank"
+            href="https://observablehq.com/d/6dcb7448c060af1c"
+          >observable</a> was fun and quick, but developing this app took quite some time.
       </p>
 
       <h2>What else</h2>
@@ -104,9 +107,9 @@
         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen
       ></iframe>
-      <p>Shout out to u/youngluck for the support</p>
+      <p>Shout out to u/youngluck for the support and the video cutting</p>
       <p>
-        You can buy me a virtual coffee by beeing a
+        You can support me by beeing a
         <a target="_blank" href="https://github.com/sponsors/cpietsch">GitHub Sponsor</a>
       </p>
       <p>
